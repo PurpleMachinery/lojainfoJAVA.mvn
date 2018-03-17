@@ -52,7 +52,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 
 		this.painelParaCampos.add(lblData);
 		this.painelParaCampos.add(txtData);
-		System.out.println("terminando de de adicionar os campos, add agora actionlistener...");
+		System.out.println("TelaCadVendas==true");
 
 		//JScrollPane listScroller = new JScrollPane(list);
 		//listScroller.setPreferredSize(new Dimension(250, 80));

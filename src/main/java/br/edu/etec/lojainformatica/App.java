@@ -15,8 +15,6 @@ public class App extends JFrame {
 	TelaCadVendas tlaCadVdas = new TelaCadVendas();
 	TelaCadHardware tlaCadHard = new TelaCadHardware();
 	private JMenuBar menuBar;
-	private JMenu menu;
-	private JMenuItem menuItem;
 
 	public App() {
 		this.setVisible(true);
@@ -31,7 +29,6 @@ public class App extends JFrame {
 	private void configuraMenu() {
 		this.menuBar = new JMenuBar();
 		JMenu menuCadastros = new JMenu("CADASTROS");
-
 		JMenuItem menuItemClientes = new JMenuItem("Clientes");
 		menuItemClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -41,6 +38,7 @@ public class App extends JFrame {
 				App.this.tlaCadCli.setVisible(true);
 				App.this.getContentPane().add(App.this.tlaCadCli, BorderLayout.CENTER);
 				App.this.pack();
+				System.out.println("tlaCadCli_visibility='true'");
 			}
 		});
 		menuCadastros.add(menuItemClientes);
@@ -54,6 +52,7 @@ public class App extends JFrame {
 				App.this.tlaCadHard.setVisible(true);
 				App.this.getContentPane().add(App.this.tlaCadHard, BorderLayout.CENTER);
 				App.this.pack();
+				System.out.println("tlaCadHard_visibility='true'");
 			}
 		});
 
@@ -68,6 +67,7 @@ public class App extends JFrame {
 				App.this.tlaCadVdas.setVisible(true);
 				App.this.getContentPane().add(App.this.tlaCadVdas, BorderLayout.CENTER);
 				App.this.pack();
+				System.out.println("tlaCadVdas_visibility='true'");
 			}
 		});
 

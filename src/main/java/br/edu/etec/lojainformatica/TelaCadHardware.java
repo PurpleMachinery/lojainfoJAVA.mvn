@@ -45,7 +45,7 @@ public class TelaCadHardware extends TelaDeCadastro {
 
 		this.painelParaCampos.add(lbQtdMinima);
 		this.painelParaCampos.add(txtQtdMinima);
-		System.out.println("terminando de de adicionar os campos, add agora actionlistener...");
+		System.out.println("TelaCadHardware==true");
 
 		JScrollPane listScroller = new JScrollPane(list);
 		listScroller.setPreferredSize(new Dimension(250, 80));

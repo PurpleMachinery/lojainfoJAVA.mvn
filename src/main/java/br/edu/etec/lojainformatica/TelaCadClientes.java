@@ -45,7 +45,7 @@ public class TelaCadClientes extends TelaDeCadastro {
 
 		this.painelParaCampos.add(lbEmail);
 		this.painelParaCampos.add(txtEmail);
-		System.out.println("terminando de de adicionar os campos, add agora actionlistener...");
+		System.out.println("TelaCadClientes==true");
 
 		JScrollPane listScroller = new JScrollPane(list);
 		listScroller.setPreferredSize(new Dimension(250, 80));
