@@ -54,9 +54,9 @@ public class TelaCadVendas extends TelaDeCadastro {
 		this.painelParaCampos.add(txtData);
 		System.out.println("TelaCadVendas==true");
 
-		//JScrollPane listScroller = new JScrollPane(list);
-		//listScroller.setPreferredSize(new Dimension(250, 80));
-		//this.painelListagem.add(list);
+		JScrollPane listScroller = new JScrollPane();
+		listScroller.setPreferredSize(new Dimension(250, 80));
+		this.painelListagem.add(listScroller);
 
 		this.btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -90,7 +90,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 			}
 		});
 
-		/*this.btnListar.addActionListener(new ActionListener() {
+		this.btnListar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -100,7 +100,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 					e1.printStackTrace();
 				}
 			}
-		});*/
+		});
 	}
 
 	
@@ -189,8 +189,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 		}
 	}
 
-
-	/*void listar() throws SQLException {
+	void listar() throws SQLException {
 		Connection conn;
 		try {
 			conn = persistence.JdbcUtil.getConnection();
@@ -199,8 +198,8 @@ public class TelaCadVendas extends TelaDeCadastro {
 			String[] strArr = new String[list.size()];
 			for (int i = 0; i < list.size(); i++) {
 				String id = Integer.toString(list.get(i).getId());
-				//String nome = list.get(i).getNome();
-				//strArr[i] = id + " - " + nome;
+				int fk_idCliente = list.get(i).getFk_idCliente();
+				strArr[i] = id + " - " + fk_idCliente;
 			}
 			//this.list.setListData(strArr);
 		} catch (ClassNotFoundException e) {
@@ -208,5 +207,5 @@ public class TelaCadVendas extends TelaDeCadastro {
 			e.printStackTrace();
 		}
 
-	}*/
+	}
 }

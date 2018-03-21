@@ -1,11 +1,12 @@
 package br.edu.etec.lojainformatica;
 
 import java.awt.Dimension;
-import java.awt.List;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -13,11 +14,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import model.Hardware;
-import model.Hardware;
 import persistence.HardwareJdbcDAO;
 
 public class TelaCadHardware extends TelaDeCadastro {
-	List list = new List();
+	ArrayList list = new ArrayList();
 	Hardware hardware = new Hardware();
 
 	JLabel lbDescricao = new JLabel("Descrição");
@@ -47,9 +47,9 @@ public class TelaCadHardware extends TelaDeCadastro {
 		this.painelParaCampos.add(txtQtdMinima);
 		System.out.println("TelaCadHardware==true");
 
-		JScrollPane listScroller = new JScrollPane(list);
+		JScrollPane listScroller = new JScrollPane();
 		listScroller.setPreferredSize(new Dimension(250, 80));
-		this.painelListagem.add(list);
+		this.painelListagem.add(listScroller);
 
 		this.btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -83,7 +83,7 @@ public class TelaCadHardware extends TelaDeCadastro {
 			}
 		});
 
-		/*this.btnListar.addActionListener(new ActionListener() {
+		this.btnListar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -93,7 +93,7 @@ public class TelaCadHardware extends TelaDeCadastro {
 					e1.printStackTrace();
 				}
 			}
-		});*/
+		});
 	}
 
 	@Override
@@ -183,7 +183,6 @@ public class TelaCadHardware extends TelaDeCadastro {
 		}
 	}
 
-	/*@Override
 	void listar() throws SQLException {
 		Connection conn;
 		try {
@@ -192,15 +191,14 @@ public class TelaCadHardware extends TelaDeCadastro {
 			List<Hardware> list = hardwareJdbcDAO.listar();
 			String[] strArr = new String[list.size()];
 			for (int i = 0; i < list.size(); i++) {
-				String id = list.get(i).getId_hardware().toString();
-				String nome = list.get(i).getNome();
-				strArr[i] = id + " - " + nome;
+				int id = list.get(i).getId();
+				String descricao = list.get(i).getDescricao();
+				strArr[i] = id + " - " + descricao;
 			}
-			this.list.setListData(strArr);
+			//this.list.setListData(strArr);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-	}*/
+	}
 }
