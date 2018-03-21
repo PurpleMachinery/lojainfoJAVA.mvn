@@ -1,4 +1,4 @@
-package persistence;
+package br.edu.etec.persistence;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

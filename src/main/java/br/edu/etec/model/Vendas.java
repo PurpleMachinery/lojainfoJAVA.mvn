@@ -1,4 +1,4 @@
-package model;
+package br.edu.etec.model;
 
 public class Vendas {
 	Integer id;

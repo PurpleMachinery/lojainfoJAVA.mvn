@@ -1,4 +1,4 @@
-package br.edu.etec.lojainformatica;
+package br.edu.etec.view;
 
 import java.awt.Dimension;
 import java.util.List;
@@ -6,18 +6,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import model.Hardware;
-import persistence.HardwareJdbcDAO;
+import br.edu.etec.model.Hardware;
+import br.edu.etec.persistence.HardwareJdbcDAO;
 
 public class TelaCadHardware extends TelaDeCadastro {
-	ArrayList list = new ArrayList();
+	JList list = new JList();
 	Hardware hardware = new Hardware();
 
 	JLabel lbDescricao = new JLabel("Descrição");
@@ -129,8 +129,8 @@ public class TelaCadHardware extends TelaDeCadastro {
 			this.hardware.setQtdAtual(QtdAtual);
 			int QtdMinima = Integer.parseInt(this.txtQtdMinima.getText());
 			this.hardware.setQtdMinima(QtdMinima);
-			Connection connection = persistence.JdbcUtil.getConnection();
-			persistence.HardwareJdbcDAO hardwareJdbcDAO = new HardwareJdbcDAO(connection);
+			Connection connection = br.edu.etec.persistence.JdbcUtil.getConnection();
+			br.edu.etec.persistence.HardwareJdbcDAO hardwareJdbcDAO = new HardwareJdbcDAO(connection);
 			if (salvarOuAlterar.equals("salvar")) {
 				hardwareJdbcDAO.salvar(this.hardware);
 			} else {
@@ -152,7 +152,7 @@ public class TelaCadHardware extends TelaDeCadastro {
 		String id = this.txtId.getText();
 		try {
 			int idInt = Integer.parseInt(id);
-			Connection conn = persistence.JdbcUtil.getConnection();
+			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
 			HardwareJdbcDAO hardwareJdbcDAO = new HardwareJdbcDAO(conn);
 			Hardware cli = hardwareJdbcDAO.findById(idInt);
 			if (cli != null) {
@@ -174,7 +174,7 @@ public class TelaCadHardware extends TelaDeCadastro {
 		String id = this.txtId.getText();
 		try {
 			int idInt = Integer.parseInt(id);
-			Connection conn = persistence.JdbcUtil.getConnection();
+			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
 			HardwareJdbcDAO hardwareJdbcDAO = new HardwareJdbcDAO(conn);
 			hardwareJdbcDAO.excluir(idInt);
 			this.limparFormulario();
@@ -186,7 +186,7 @@ public class TelaCadHardware extends TelaDeCadastro {
 	void listar() throws SQLException {
 		Connection conn;
 		try {
-			conn = persistence.JdbcUtil.getConnection();
+			conn = br.edu.etec.persistence.JdbcUtil.getConnection();
 			HardwareJdbcDAO hardwareJdbcDAO = new HardwareJdbcDAO(conn);
 			List<Hardware> list = hardwareJdbcDAO.listar();
 			String[] strArr = new String[list.size()];
@@ -195,7 +195,7 @@ public class TelaCadHardware extends TelaDeCadastro {
 				String descricao = list.get(i).getDescricao();
 				strArr[i] = id + " - " + descricao;
 			}
-			//this.list.setListData(strArr);
+			this.list.setListData(strArr);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -1,4 +1,4 @@
-package model;
+package br.edu.etec.model;
 
 public class Hardware {
 	int id;

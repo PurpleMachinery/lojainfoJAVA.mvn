@@ -1,4 +1,4 @@
-package br.edu.etec.lojainformatica;
+package br.edu.etec.view;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;

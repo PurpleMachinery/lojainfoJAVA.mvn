@@ -1,4 +1,4 @@
-package br.edu.etec.lojainformatica;
+package br.edu.etec.view;
 
 import java.awt.Dimension;
 import java.util.List;
@@ -6,19 +6,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import model.Cliente;
-import persistence.ClienteJdbcDAO;
+import br.edu.etec.model.Cliente;
+import br.edu.etec.persistence.ClienteJdbcDAO;
 
 import javax.swing.JScrollPane;
 
 public class TelaCadClientes extends TelaDeCadastro {
-	ArrayList list = new ArrayList();
+	JList list = new JList();
 	Cliente cliente = new Cliente();
 
 	JLabel lbNome = new JLabel("Nome");
@@ -128,8 +128,8 @@ public class TelaCadClientes extends TelaDeCadastro {
 			this.cliente.setEndereco(this.txtEndereco.getText());
 			this.cliente.setFone(this.txtFone.getText());
 			this.cliente.setEmail(this.txtEmail.getText());
-			Connection connection = persistence.JdbcUtil.getConnection();
-			persistence.ClienteJdbcDAO clienteJdbcDAO = new ClienteJdbcDAO(connection);
+			Connection connection = br.edu.etec.persistence.JdbcUtil.getConnection();
+			br.edu.etec.persistence.ClienteJdbcDAO clienteJdbcDAO = new ClienteJdbcDAO(connection);
 			if (salvarOuAlterar.equals("salvar")) {
 				clienteJdbcDAO.salvar(this.cliente);
 			} else {
@@ -151,7 +151,7 @@ public class TelaCadClientes extends TelaDeCadastro {
 		String id = this.txtId.getText();
 		try {
 			int idInt = Integer.parseInt(id);
-			Connection conn = persistence.JdbcUtil.getConnection();
+			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
 			ClienteJdbcDAO clienteJdbcDAO = new ClienteJdbcDAO(conn);
 			Cliente cli = clienteJdbcDAO.findById(idInt);
 			if (cli != null) {
@@ -173,7 +173,7 @@ public class TelaCadClientes extends TelaDeCadastro {
 		String id = this.txtId.getText();
 		try {
 			int idInt = Integer.parseInt(id);
-			Connection conn = persistence.JdbcUtil.getConnection();
+			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
 			ClienteJdbcDAO clienteJdbcDAO = new ClienteJdbcDAO(conn);
 			clienteJdbcDAO.excluir(idInt);
 			this.limparFormulario();
@@ -185,7 +185,7 @@ public class TelaCadClientes extends TelaDeCadastro {
 	void listar() throws SQLException {
 		Connection conn;
 		try {
-			conn = persistence.JdbcUtil.getConnection();
+			conn = br.edu.etec.persistence.JdbcUtil.getConnection();
 			ClienteJdbcDAO clienteJdbcDAO = new ClienteJdbcDAO(conn);
 			List<Cliente> list = clienteJdbcDAO.listar();
 			String[] strArr = new String[list.size()];
@@ -194,7 +194,7 @@ public class TelaCadClientes extends TelaDeCadastro {
 				String nome = list.get(i).getNome();
 				strArr[i] = id + " - " + nome;
 			}
-			//this.list.setListData(strArr);
+			this.list.setListData(strArr);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
