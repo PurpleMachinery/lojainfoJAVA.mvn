@@ -18,7 +18,7 @@ public class ClienteJdbcDAO {
 	}
 
 	public void salvar(Cliente c) throws SQLException {
-		String sql = "insert into tbClientes values ('" + c.getNome() + "','" + c.getEndereco() + "','" + c.getFone()
+		String sql = "insert into tbClientes (nome, endereco, fone, email) values ('" + c.getNome() + "','" + c.getEndereco() + "','" + c.getFone()
 				+ "','" + c.getEmail() + "')";
 		System.out.println(sql);
 		PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
@@ -28,7 +28,7 @@ public class ClienteJdbcDAO {
 
 	public void alterar(Cliente cExample) {
 		String sql = "update tbClientes set nome='" + cExample.getNome() + "',endereco='" + cExample.getEndereco()
-				+ "',fone='" + cExample.getFone() + "',email='" + cExample.getEmail() + "' where id_cliente='"
+				+ "',fone='" + cExample.getFone() + "',email='" + cExample.getEmail() + "' where pk_idCliente='"
 				+ cExample.getId() + "';";
 		System.out.println(sql);
 		PreparedStatement prepareStatement;

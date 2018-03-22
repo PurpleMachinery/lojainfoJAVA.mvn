@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class JdbcUtil {
 
-    //https://docs.microsoft.com/pt-br/sql/connect/jdbc/using-the-jdbc-driver
+    /*//https://docs.microsoft.com/pt-br/sql/connect/jdbc/using-the-jdbc-driver
     private static String connectionDriverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver";
 
     //private static String connectionDriverClass="com.microsoft.jdbc.sqlserver.SQLServerDriver"; //classnotfoundEx      
@@ -14,14 +14,14 @@ public class JdbcUtil {
     //private static String connectionUrl="jdbc:jtds:172.17.0.2:1433;databaseName=lojainfo;integratedSecurity=true";   
 
     private static String connectionUsername="sa";
-    private static String connectionPassword="Aluno#123";
+    private static String connectionPassword="Aluno#123";*/
 
 
-    //private static String connectionDriverClass="org.gjt.mm.mysql.Driver";
+    private static String connectionDriverClass="org.gjt.mm.mysql.Driver";
     //private static String connectionDriverClass="com.mysql.jdbc.Driver";
-    //private static String connectionUrl="jdbc:mysql://192.168.33.151:3306/lojainfo";
-    //private static String connectionUsername="root";
-    //private static String connectionPassword="admin123";
+    private static String connectionUrl="jdbc:mysql://192.168.33.151:3306/lojainfo";
+    private static String connectionUsername="root";
+    private static String connectionPassword="admin123";
 
 
 

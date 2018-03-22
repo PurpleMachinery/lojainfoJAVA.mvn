@@ -17,7 +17,7 @@ public class HardwareJdbcDAO {
 	}
 
 	public void salvar(Hardware c) throws SQLException {
-		String sql = "insert into tbHardwares values ('" + c.getDescricao() + "','" + c.getPrecoUnitario() + "','" + c.getQtdAtual()
+		String sql = "insert into tbHardware (descricao, pecoUnit, qtdAtual, qtdMinima) values ('" + c.getDescricao() + "','" + c.getPrecoUnitario() + "','" + c.getQtdAtual()
 				+ "','" + c.getQtdMinima() + "')";
 		System.out.println(sql);
 		PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
@@ -26,7 +26,7 @@ public class HardwareJdbcDAO {
 	}
 
 	public void alterar(Hardware cExample) {
-		String sql = "update tbHardwares set descricao='" + cExample.getDescricao() + "',qtdAtual='" + cExample.getQtdAtual()
+		String sql = "update tbHardware set descricao='" + cExample.getDescricao() + "',qtdAtual='" + cExample.getQtdAtual()
 				+ "',qtdMinima='" + cExample.getQtdMinima() + "',precoUnit='" + cExample.getPrecoUnitario() + "' where pk_idHardware='"
 				+ cExample.getId() + "';";
 		System.out.println(sql);
@@ -41,7 +41,7 @@ public class HardwareJdbcDAO {
 	}
 
 	public void excluir(int id) {
-		String sql = "delete from tbHardwares where pk_idHardware='" + id + "';";
+		String sql = "delete from tbHardware where pk_idHardware='" + id + "';";
 		System.out.println(sql);
 		try {
 			PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
@@ -53,7 +53,7 @@ public class HardwareJdbcDAO {
 	}
 
 	public List<Hardware> listar() {
-		String sql = "select * from tbHardwares";
+		String sql = "select * from tbHardware";
 		System.out.println(sql);
 		List<Hardware> hardwares = new ArrayList<Hardware>();
 		try {
@@ -82,7 +82,7 @@ public class HardwareJdbcDAO {
 	}
 
 	public Hardware findById(Integer id) {
-		String sql = "select * from tbHardwares where pk_idHardware = " + id;
+		String sql = "select * from tbHardware where pk_idHardware = " + id;
 		System.out.println(sql);
 		Hardware hardware = null;
 		try {

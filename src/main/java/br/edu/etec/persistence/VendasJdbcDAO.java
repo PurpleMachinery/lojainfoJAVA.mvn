@@ -17,7 +17,7 @@ public class VendasJdbcDAO {
 	}
 
 	public void salvar(Vendas c) throws SQLException {
-		String sql = "insert into tbVendas values ('" + c.getFk_idCliente() + "','" + c.getData() + "','" + c.getValorTotal()
+		String sql = "insert into tbVendas (fk_idCliente, data, valorTotal, desconto, valorPago) values ('" + c.getFk_idCliente() + "','" + c.getData() + "','" + c.getValorTotal()
 				+ "','" + c.getDesconto() + "','" + c.getValorPago() + "')";
 		System.out.println(sql);
 		PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
@@ -26,7 +26,7 @@ public class VendasJdbcDAO {
 	}
 
 	public void alterar(Vendas cExample) {
-		String sql = "update tbVendas set fk_idCliente='" + cExample.getFk_idCliente() + "',valorTotal='" + cExample.getValorTotal()
+		String sql = "update tbVendas set fk_idCliente='" + cExample.getFk_idCliente() + "', data='" + cExample.getData() + "',valorTotal='" + cExample.getValorTotal()
 				+ "',valorPago='" + cExample.getValorPago() + "',desconto='" + cExample.getDesconto() + "' where pk_idVenda='"
 				+ cExample.getId() + "';";
 		System.out.println(sql);
@@ -41,7 +41,7 @@ public class VendasJdbcDAO {
 	}
 
 	public void excluir(int id) {
-		String sql = "delete from tbVendas where id_hardware='" + id + "';";
+		String sql = "delete from tbVendas where pk_idVenda='" + id + "';";
 		System.out.println(sql);
 		try {
 			PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
@@ -64,13 +64,15 @@ public class VendasJdbcDAO {
 				double desconto = Double.parseDouble(rs.getString("desconto"));
 				int fk_cliente = Integer.parseInt(rs.getString("Fk_idCliente"));
 				double valorPago = Double.parseDouble(rs.getString("valorPago"));
-				Double valorTotal = Double.parseDouble(rs.getString("valorTotal"));
+				double valorTotal = Double.parseDouble(rs.getString("valorTotal"));
+				String data = rs.getString("data");
 				
 				Vendas venda = new Vendas();
 				venda.setId(id);
 				venda.setDesconto(desconto);
 				venda.setFk_idCliente(fk_cliente);
 				venda.setValorPago(valorPago);
+				venda.setData(data);
 				venda.setValorTotal(valorTotal);
 				vendas.add(venda);
 			}
@@ -94,6 +96,7 @@ public class VendasJdbcDAO {
 				int fk_cliente = Integer.parseInt(rs.getString("Fk_idCliente"));
 				double valorPago = Double.parseDouble(rs.getString("valorPago"));
 				Double valorTotal = Double.parseDouble(rs.getString("valorTotal"));
+				String data = rs.getString("data");
 				
 				Vendas venda = new Vendas();
 				venda.setId(id);
@@ -101,6 +104,7 @@ public class VendasJdbcDAO {
 				venda.setFk_idCliente(fk_cliente);
 				venda.setValorPago(valorPago);
 				venda.setValorTotal(valorTotal);
+				venda.setData(data);
 			}
 			prepareStatement.close();
 		} catch (SQLException e) {
