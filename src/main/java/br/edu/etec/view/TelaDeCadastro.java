@@ -19,6 +19,7 @@ public abstract class TelaDeCadastro extends JPanel {
 	JButton btnCancelar = new JButton("Cancelar");
 	JButton btnListar = new JButton("Listar");
 	JButton btnAlterar = new JButton("Alterar");
+	JButton btnExcluir = new JButton("Excluir");
 	JTextField txtId = new JTextField("Digite Id Para Alterar");
 
 	public TelaDeCadastro(int nLinhas, int nColunas) {
@@ -41,6 +42,7 @@ public abstract class TelaDeCadastro extends JPanel {
 		this.painelDeBotoes.add(btnCancelar);
 		this.painelDeBotoes.add(btnListar);
 		this.painelDeBotoes.add(btnAlterar);
+		this.painelDeBotoes.add(btnExcluir);
 		this.painelDeBotoes.add(txtId);
 
 		this.add(painelDeBotoes, BorderLayout.SOUTH);

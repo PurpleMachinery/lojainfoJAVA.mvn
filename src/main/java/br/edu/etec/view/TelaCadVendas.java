@@ -52,7 +52,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 
 		this.painelParaCampos.add(lblData);
 		this.painelParaCampos.add(txtData);
-		System.out.println("TelaCadVendas==true");
+		System.out.println("Construtor TelaCadVendas()");
 
 		JScrollPane listScroller = new JScrollPane();
 		listScroller.setPreferredSize(new Dimension(250, 80));
@@ -101,12 +101,24 @@ public class TelaCadVendas extends TelaDeCadastro {
 				}
 			}
 		});
+		
+		this.btnExcluir.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					TelaCadVendas.this.excluir();
+				} catch (SQLException e1) {
+					System.out.println("Excluir nao funfou");
+					e1.printStackTrace();
+				}
+			}
+		});
 	}
 
-	
 	@Override
 	void limparFormulario() {
-		System.out.println("void limparFormulario() {....");
+		System.out.println("void limparFormulario()");
 		this.txtIdCliente.setText("");
 		this.txtData.setText("");
 		this.txtDesconto.setText("");
@@ -162,10 +174,10 @@ public class TelaCadVendas extends TelaDeCadastro {
 			VendasJdbcDAO vendasJdbcDAO = new VendasJdbcDAO(conn);
 			Vendas cli = vendasJdbcDAO.findById(idInt);
 			if (cli != null) {
-				this.txtIdCliente.setText(""+cli.getFk_idCliente());
-				this.txtDesconto.setText(""+cli.getDesconto());
-				this.txtValorPago.setText(""+cli.getValorPago());
-				this.txtValorTotal.setText(""+cli.getValorTotal());
+				this.txtIdCliente.setText("" + cli.getFk_idCliente());
+				this.txtDesconto.setText("" + cli.getDesconto());
+				this.txtValorPago.setText("" + cli.getValorPago());
+				this.txtValorTotal.setText("" + cli.getValorTotal());
 			} else {
 				JOptionPane.showMessageDialog(this, "Nao ha vendass com esse id");
 			}
@@ -201,7 +213,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 				int fk_idCliente = list.get(i).getFk_idCliente();
 				strArr[i] = id + " - " + fk_idCliente;
 			}
-			//this.list.setListData(strArr);
+			// this.list.setListData(strArr);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

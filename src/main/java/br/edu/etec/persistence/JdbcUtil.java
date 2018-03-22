@@ -19,9 +19,9 @@ public class JdbcUtil {
 
     private static String connectionDriverClass="org.gjt.mm.mysql.Driver";
     //private static String connectionDriverClass="com.mysql.jdbc.Driver";
-    private static String connectionUrl="jdbc:mysql://192.168.33.151:3306/lojainfo";
+    private static String connectionUrl="jdbc:mysql://127.0.0.1:3306/lojainfo"; //192.168.33.151
     private static String connectionUsername="root";
-    private static String connectionPassword="admin123";
+    private static String connectionPassword="";
 
 
 

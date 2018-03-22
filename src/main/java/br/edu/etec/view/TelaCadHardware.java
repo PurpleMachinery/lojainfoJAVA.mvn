@@ -45,7 +45,7 @@ public class TelaCadHardware extends TelaDeCadastro {
 
 		this.painelParaCampos.add(lbQtdMinima);
 		this.painelParaCampos.add(txtQtdMinima);
-		System.out.println("TelaCadHardware==true");
+		System.out.println("Construtor TelaCadHardware()");
 
 		JScrollPane listScroller = new JScrollPane();
 		listScroller.setPreferredSize(new Dimension(250, 80));
@@ -94,11 +94,24 @@ public class TelaCadHardware extends TelaDeCadastro {
 				}
 			}
 		});
+
+		this.btnExcluir.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					TelaCadHardware.this.excluir();
+				} catch (SQLException e1) {
+					System.out.println("Excluir nao funfou");
+					e1.printStackTrace();
+				}
+			}
+		});
 	}
 
 	@Override
 	void limparFormulario() {
-		System.out.println("void limparFormulario() {....");
+		System.out.println("void limparFormulario()");
 		this.txtDescricao.setText("");
 		this.txtPrecoUnit.setText("");
 		this.txtQtdAtual.setText("");

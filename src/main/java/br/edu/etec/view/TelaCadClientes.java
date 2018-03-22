@@ -47,7 +47,7 @@ public class TelaCadClientes extends TelaDeCadastro {
 
 		this.painelParaCampos.add(lbEmail);
 		this.painelParaCampos.add(txtEmail);
-		System.out.println("TelaCadClientes==true");
+		System.out.println("Construtor TelaCadClientes()");
 
 		JScrollPane listScroller = new JScrollPane();
 		listScroller.setPreferredSize(new Dimension(250, 80));
@@ -96,11 +96,24 @@ public class TelaCadClientes extends TelaDeCadastro {
 				}
 			}
 		});
+		
+		this.btnExcluir.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					TelaCadClientes.this.excluir();
+				} catch (SQLException e1) {
+					System.out.println("Excluir nao funfou");
+					e1.printStackTrace();
+				}
+			}
+		});
 	}
 
 	@Override
 	void limparFormulario() {
-		System.out.println("void limparFormulario() {....");
+		System.out.println("void limparFormulario()");
 		this.txtNome.setText("");
 		this.txtEmail.setText("");
 		this.txtEndereco.setText("");
@@ -120,6 +133,7 @@ public class TelaCadClientes extends TelaDeCadastro {
 			idInt = Integer.parseInt(id);
 			salvarOuAlterar = "alterar"; // se deu pra converter num in entao altera
 		} catch (Exception e) {
+			System.out.println("Try falhou na entrada de id");
 			e.printStackTrace();
 		}
 
