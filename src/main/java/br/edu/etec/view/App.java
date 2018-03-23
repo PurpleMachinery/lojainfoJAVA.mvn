@@ -21,6 +21,7 @@ public class App extends JFrame {
 		this.setSize(800, 600);
 		// https://docs.oracle.com/javase/tutorial/uiswing/layout/visual.html#border
 		this.setLayout(new BorderLayout());
+		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		configuraMenu();
 		this.pack();
@@ -32,6 +33,7 @@ public class App extends JFrame {
 		JMenuItem menuItemClientes = new JMenuItem("Clientes");
 		menuItemClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				App.this.tlaCadCli.txtId.setText("Digite Id Para Alterar");
 				System.out.println("menuClieActionPerformed...");
 				App.this.tlaCadHard.setVisible(false);
 				App.this.tlaCadVdas.setVisible(false);
@@ -46,6 +48,7 @@ public class App extends JFrame {
 		JMenuItem menuItemHardware = new JMenuItem("Hardware");
 		menuItemHardware.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				App.this.tlaCadHard.txtId.setText("Digite Id Para Alterar");
 				System.out.println("menuHardActionPerformed...");
 				App.this.tlaCadCli.setVisible(false);
 				App.this.tlaCadVdas.setVisible(false);
@@ -61,6 +64,7 @@ public class App extends JFrame {
 		JMenuItem menuItemVenda = new JMenuItem("Vendas");
 		menuItemVenda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				App.this.tlaCadVdas.txtId.setText("Digite Id Para Alterar");
 				System.out.println("menuVendasActionPerformed...");
 				App.this.tlaCadCli.setVisible(false);
 				App.this.tlaCadHard.setVisible(false);

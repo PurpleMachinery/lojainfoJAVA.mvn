@@ -30,7 +30,7 @@ public abstract class TelaDeCadastro extends JPanel {
 		// https://docs.oracle.com/javase/tutorial/uiswing/layout/grid.html
 		GridLayout layoutParaCampos = new GridLayout(nLinhas, nColunas);
 		painelParaCampos.setLayout(layoutParaCampos);
-		this.add(painelParaCampos, BorderLayout.CENTER);
+		this.add(painelParaCampos, BorderLayout.NORTH);
 
 		this.painelDeBotoes = new JPanel();
 		this.btnSalvar = new JButton("Salvar");
@@ -44,7 +44,8 @@ public abstract class TelaDeCadastro extends JPanel {
 		this.painelDeBotoes.add(btnCancelar);
 		this.painelDeBotoes.add(txtId);
 
-		this.add(painelDeBotoes, BorderLayout.SOUTH);
+		this.add(painelDeBotoes, BorderLayout.CENTER);
+		this.add(painelListagem, BorderLayout.SOUTH);
 
 	}
 

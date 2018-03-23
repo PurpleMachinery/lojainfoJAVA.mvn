@@ -134,6 +134,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 			this.vendas.setDesconto(Double.parseDouble(this.txtDesconto.getText()));
 			this.vendas.setValorTotal(Double.parseDouble(this.txtValorTotal.getText()));
 			this.vendas.setValorPago(Double.parseDouble(this.txtValorPago.getText()));
+			this.vendas.setData(this.txtData.getText());
 			Connection connection = br.edu.etec.persistence.JdbcUtil.getConnection();
 			br.edu.etec.persistence.VendasJdbcDAO vendasJdbcDAO = new VendasJdbcDAO(connection);
 			vendasJdbcDAO.salvar(this.vendas);
