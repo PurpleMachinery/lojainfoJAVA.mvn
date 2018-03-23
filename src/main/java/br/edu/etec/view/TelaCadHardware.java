@@ -120,20 +120,6 @@ public class TelaCadHardware extends TelaDeCadastro {
 
 	@Override
 	void salvar() {
-		String salvarOuAlterar = "salvar";
-
-		// o botao salvar vai salvar ou alterar. se tiver id ele altera, se nao ele
-		// salva
-		String id = this.txtId.getText();
-		int idInt = -1;
-
-		try {
-			idInt = Integer.parseInt(id);
-			salvarOuAlterar = "alterar"; // se deu pra converter num in entao altera
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 		try {
 			this.hardware.setDescricao(this.txtDescricao.getText());
 			double PrecoUnitario = Double.parseDouble(this.txtPrecoUnit.getText());
@@ -144,12 +130,7 @@ public class TelaCadHardware extends TelaDeCadastro {
 			this.hardware.setQtdMinima(QtdMinima);
 			Connection connection = br.edu.etec.persistence.JdbcUtil.getConnection();
 			br.edu.etec.persistence.HardwareJdbcDAO hardwareJdbcDAO = new HardwareJdbcDAO(connection);
-			if (salvarOuAlterar.equals("salvar")) {
-				hardwareJdbcDAO.salvar(this.hardware);
-			} else {
-				this.hardware.setId(idInt);
-				hardwareJdbcDAO.alterar(this.hardware);
-			}
+			hardwareJdbcDAO.salvar(this.hardware);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

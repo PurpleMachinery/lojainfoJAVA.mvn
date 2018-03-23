@@ -17,7 +17,7 @@ public class HardwareJdbcDAO {
 	}
 
 	public void salvar(Hardware c) throws SQLException {
-		String sql = "insert into tbHardware (descricao, pecoUnit, qtdAtual, qtdMinima) values ('" + c.getDescricao() + "','" + c.getPrecoUnitario() + "','" + c.getQtdAtual()
+		String sql = "insert into tbHardware (descricao, precoUnit, qtdAtual, qtdMinima) values ('" + c.getDescricao() + "','" + c.getPrecoUnitario() + "','" + c.getQtdAtual()
 				+ "','" + c.getQtdMinima() + "')";
 		System.out.println(sql);
 		PreparedStatement prepareStatement = this.conn.prepareStatement(sql);

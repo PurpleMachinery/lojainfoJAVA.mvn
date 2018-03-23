@@ -128,33 +128,15 @@ public class TelaCadVendas extends TelaDeCadastro {
 
 	@Override
 	void salvar() {
-		String salvarOuAlterar = "salvar";
-
-		// o botao salvar vai salvar ou alterar. se tiver id ele altera, se nao ele
-		// salva
-		String id = this.txtId.getText();
-		int idInt = -1;
 
 		try {
-			idInt = Integer.parseInt(id);
-			salvarOuAlterar = "alterar"; // se deu pra converter num in entao altera
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		try {
-			this.vendas.setDesconto(Double.parseDouble(this.txtDesconto.getText()));
 			this.vendas.setFk_idCliente(Integer.parseInt(this.txtIdCliente.getText()));
+			this.vendas.setDesconto(Double.parseDouble(this.txtDesconto.getText()));
+			this.vendas.setValorTotal(Double.parseDouble(this.txtValorTotal.getText()));
 			this.vendas.setValorPago(Double.parseDouble(this.txtValorPago.getText()));
-			this.vendas.setValorTotal(Double.parseDouble(this.txtDesconto.getText()));
 			Connection connection = br.edu.etec.persistence.JdbcUtil.getConnection();
 			br.edu.etec.persistence.VendasJdbcDAO vendasJdbcDAO = new VendasJdbcDAO(connection);
-			if (salvarOuAlterar.equals("salvar")) {
-				vendasJdbcDAO.salvar(this.vendas);
-			} else {
-				this.vendas.setId(idInt);
-				vendasJdbcDAO.alterar(this.vendas);
-			}
+			vendasJdbcDAO.salvar(this.vendas);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -167,9 +149,8 @@ public class TelaCadVendas extends TelaDeCadastro {
 
 	@Override
 	void alterar() throws SQLException {
-		String id = this.txtId.getText();
 		try {
-			int idInt = Integer.parseInt(id);
+			int idInt = Integer.parseInt(this.txtId.getText());
 			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
 			VendasJdbcDAO vendasJdbcDAO = new VendasJdbcDAO(conn);
 			Vendas cli = vendasJdbcDAO.findById(idInt);
@@ -179,7 +160,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 				this.txtValorPago.setText("" + cli.getValorPago());
 				this.txtValorTotal.setText("" + cli.getValorTotal());
 			} else {
-				JOptionPane.showMessageDialog(this, "Nao ha vendass com esse id");
+				JOptionPane.showMessageDialog(this, "Nao ha vendas com esse id");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

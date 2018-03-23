@@ -17,7 +17,7 @@ public class VendasJdbcDAO {
 	}
 
 	public void salvar(Vendas c) throws SQLException {
-		String sql = "insert into tbVendas (fk_idCliente, data, valorTotal, desconto, valorPago) values ('" + c.getFk_idCliente() + "','" + c.getData() + "','" + c.getValorTotal()
+		String sql = "insert into tbVendas (fk_idCliente, valorTotal, desconto, valorPago) values ('" + c.getFk_idCliente() + "','" + c.getValorTotal()
 				+ "','" + c.getDesconto() + "','" + c.getValorPago() + "')";
 		System.out.println(sql);
 		PreparedStatement prepareStatement = this.conn.prepareStatement(sql);

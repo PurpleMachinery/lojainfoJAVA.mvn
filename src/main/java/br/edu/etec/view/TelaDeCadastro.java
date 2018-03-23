@@ -10,16 +10,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public abstract class TelaDeCadastro extends JPanel {
-
 	JPanel painelDeBotoes = new JPanel();
 	JPanel painelParaCampos = new JPanel();
 	JPanel painelListagem = new JPanel();
 	JButton btnSalvar = new JButton("Salvar");
+	JButton btnAlterar = new JButton("Alterar");
+	JButton btnListar = new JButton("Listar");
+	JButton btnExcluir = new JButton("Excluir");
 	JButton btnLimpar = new JButton("Limpar");
 	JButton btnCancelar = new JButton("Cancelar");
-	JButton btnListar = new JButton("Listar");
-	JButton btnAlterar = new JButton("Alterar");
-	JButton btnExcluir = new JButton("Excluir");
 	JTextField txtId = new JTextField("Digite Id Para Alterar");
 
 	public TelaDeCadastro(int nLinhas, int nColunas) {
@@ -38,11 +37,11 @@ public abstract class TelaDeCadastro extends JPanel {
 		this.btnLimpar = new JButton("Limpar");
 		this.btnCancelar = new JButton("Cancelar");
 		this.painelDeBotoes.add(btnSalvar);
-		this.painelDeBotoes.add(btnLimpar);
-		this.painelDeBotoes.add(btnCancelar);
-		this.painelDeBotoes.add(btnListar);
 		this.painelDeBotoes.add(btnAlterar);
+		this.painelDeBotoes.add(btnListar);
+		this.painelDeBotoes.add(btnLimpar);
 		this.painelDeBotoes.add(btnExcluir);
+		this.painelDeBotoes.add(btnCancelar);
 		this.painelDeBotoes.add(txtId);
 
 		this.add(painelDeBotoes, BorderLayout.SOUTH);

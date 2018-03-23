@@ -122,21 +122,6 @@ public class TelaCadClientes extends TelaDeCadastro {
 
 	@Override
 	void salvar() {
-		String salvarOuAlterar = "salvar";
-
-		// o botao salvar vai salvar ou alterar. se tiver id ele altera, se nao ele
-		// salva
-		String id = this.txtId.getText();
-		int idInt = -1;
-
-		try {
-			idInt = Integer.parseInt(id);
-			salvarOuAlterar = "alterar"; // se deu pra converter num in entao altera
-		} catch (Exception e) {
-			System.out.println("Try falhou na entrada de id");
-			e.printStackTrace();
-		}
-
 		try {
 			this.cliente.setNome(this.txtNome.getText());
 			this.cliente.setEndereco(this.txtEndereco.getText());
@@ -144,12 +129,8 @@ public class TelaCadClientes extends TelaDeCadastro {
 			this.cliente.setEmail(this.txtEmail.getText());
 			Connection connection = br.edu.etec.persistence.JdbcUtil.getConnection();
 			br.edu.etec.persistence.ClienteJdbcDAO clienteJdbcDAO = new ClienteJdbcDAO(connection);
-			if (salvarOuAlterar.equals("salvar")) {
-				clienteJdbcDAO.salvar(this.cliente);
-			} else {
-				this.cliente.setId(idInt);
-				clienteJdbcDAO.alterar(this.cliente);
-			}
+			clienteJdbcDAO.salvar(this.cliente);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -162,9 +143,8 @@ public class TelaCadClientes extends TelaDeCadastro {
 
 	@Override
 	void alterar() throws SQLException {
-		String id = this.txtId.getText();
 		try {
-			int idInt = Integer.parseInt(id);
+			int idInt = Integer.parseInt(this.txtId.getText());
 			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
 			ClienteJdbcDAO clienteJdbcDAO = new ClienteJdbcDAO(conn);
 			Cliente cli = clienteJdbcDAO.findById(idInt);
@@ -197,6 +177,7 @@ public class TelaCadClientes extends TelaDeCadastro {
 	}
 
 	void listar() throws SQLException {
+		System.out.println("roudou");
 		Connection conn;
 		try {
 			conn = br.edu.etec.persistence.JdbcUtil.getConnection();
