@@ -1,13 +1,16 @@
 package br.edu.etec.view;
 
 import java.awt.BorderLayout;
-
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 public abstract class TelaDeCadastro extends JPanel {
 	JPanel painelDeBotoes = new JPanel();
@@ -21,7 +24,10 @@ public abstract class TelaDeCadastro extends JPanel {
 	JButton btnCancelar = new JButton("Cancelar");
 	JTextField txtId = new JTextField("Digite Id Para Alterar");
 
-	public TelaDeCadastro(int nLinhas, int nColunas) {
+	DefaultTableModel modelo = new DefaultTableModel();
+	JTable tabela = new JTable();
+
+	public TelaDeCadastro(int nLinhas, int nColunas, String[] camposListagem) {
 		// https://docs.oracle.com/javase/tutorial/uiswing/layout/layoutlist.html
 		// https://docs.oracle.com/javase/tutorial/uiswing/layout/border.html
 		BorderLayout borderLayout = new BorderLayout();
@@ -43,8 +49,14 @@ public abstract class TelaDeCadastro extends JPanel {
 		this.painelDeBotoes.add(btnExcluir);
 		this.painelDeBotoes.add(btnCancelar);
 		this.painelDeBotoes.add(txtId);
-
 		this.add(painelDeBotoes, BorderLayout.CENTER);
+		
+		for (int i = 0; i < camposListagem.length; i++) {
+			modelo.addColumn(camposListagem[i]);
+		}
+		tabela.setModel(modelo);
+		tabela.setVisible(true);
+		painelListagem.add(new JScrollPane(tabela), BorderLayout.CENTER);
 		this.add(painelListagem, BorderLayout.SOUTH);
 
 	}

@@ -17,6 +17,7 @@ public class App extends JFrame {
 	private JMenuBar menuBar;
 
 	public App() {
+		this.setResizable(false);
 		this.setVisible(true);
 		this.setSize(800, 600);
 		// https://docs.oracle.com/javase/tutorial/uiswing/layout/visual.html#border

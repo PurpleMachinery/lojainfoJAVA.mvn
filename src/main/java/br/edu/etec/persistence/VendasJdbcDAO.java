@@ -18,8 +18,15 @@ public class VendasJdbcDAO {
 
 	public void salvar(Vendas c) throws SQLException {
 		System.out.println(c.getData());
-		String sql = "insert into tbVendas (fk_idCliente, data, valorTotal, desconto, valorPago) values ('" + c.getFk_idCliente() + "','" + c.getData() + "','" + c.getValorTotal()
+		String sql;
+		if(c.getData().equals("")) {
+			sql = "insert into tbVendas (fk_idCliente, valorTotal, desconto, valorPago) values ('" + c.getFk_idCliente() + "','" + c.getValorTotal()
+		+ "','" + c.getDesconto() + "','" + c.getValorPago() + "')";
+		}
+		else {
+		sql = "insert into tbVendas (fk_idCliente, data, valorTotal, desconto, valorPago) values ('" + c.getFk_idCliente() + "','" + c.getData() + "','" + c.getValorTotal()
 				+ "','" + c.getDesconto() + "','" + c.getValorPago() + "')";
+		}
 		System.out.println(sql);
 		PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
 		prepareStatement.executeUpdate();
@@ -61,7 +68,7 @@ public class VendasJdbcDAO {
 			PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
 			ResultSet rs = prepareStatement.executeQuery();
 			while (rs.next()) {
-				int id = rs.getInt("id_vendas");
+				int id = rs.getInt("pk_IdVenda");
 				double desconto = Double.parseDouble(rs.getString("desconto"));
 				int fk_cliente = Integer.parseInt(rs.getString("Fk_idCliente"));
 				double valorPago = Double.parseDouble(rs.getString("valorPago"));

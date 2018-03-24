@@ -32,8 +32,9 @@ public class TelaCadHardware extends TelaDeCadastro {
 	JLabel lbPrecoUnit = new JLabel("Preco Unitario");
 	JTextField txtPrecoUnit = new JTextField();
 
+	static String[] colunas={"id","Descricao","qtdAtual","qtdMinima", "precoUnit"};
 	public TelaCadHardware() {
-		super(4, 2);
+		super(4, 2, colunas);
 		this.painelParaCampos.add(lbDescricao);
 		this.painelParaCampos.add(txtDescricao);
 
@@ -178,6 +179,7 @@ public class TelaCadHardware extends TelaDeCadastro {
 	}
 
 	void listar() throws SQLException {
+		this.modelo.setNumRows(0);
 		Connection conn;
 		try {
 			conn = br.edu.etec.persistence.JdbcUtil.getConnection();
@@ -185,9 +187,10 @@ public class TelaCadHardware extends TelaDeCadastro {
 			List<Hardware> list = hardwareJdbcDAO.listar();
 			String[] strArr = new String[list.size()];
 			for (int i = 0; i < list.size(); i++) {
-				int id = list.get(i).getId();
+				this.modelo.addRow(new Object[] {list.get(i).getId(),list.get(i).getDescricao(),list.get(i).getQtdAtual(),list.get(i).getQtdMinima(),list.get(i).getPrecoUnitario()});
+				/*int id = list.get(i).getId();
 				String descricao = list.get(i).getDescricao();
-				strArr[i] = id + " - " + descricao;
+				strArr[i] = id + " - " + descricao;*/
 			}
 			this.list.setListData(strArr);
 		} catch (ClassNotFoundException e) {

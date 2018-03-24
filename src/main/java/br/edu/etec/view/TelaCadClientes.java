@@ -33,8 +33,9 @@ public class TelaCadClientes extends TelaDeCadastro {
 	JLabel lbEmail = new JLabel("Email");
 	JTextField txtEmail = new JTextField();
 
+	static String[] colunas={"id","nome","endereco","fone","email"};
 	public TelaCadClientes() {
-		super(4, 2); // quatro linhas e duas colunas Na Hora de add os componentes, considerar a
+		super(4, 2, colunas); // quatro linhas e duas colunas Na Hora de add os componentes, considerar a
 						// ordem deles Conforme usamos abaixo
 		this.painelParaCampos.add(lbNome);
 		this.painelParaCampos.add(txtNome);
@@ -48,10 +49,6 @@ public class TelaCadClientes extends TelaDeCadastro {
 		this.painelParaCampos.add(lbEmail);
 		this.painelParaCampos.add(txtEmail);
 		System.out.println("Construtor TelaCadClientes()");
-
-		JScrollPane listScroller = new JScrollPane();
-		listScroller.setPreferredSize(new Dimension(250, 80));
-		this.painelListagem.add(listScroller);
 
 		this.btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -177,6 +174,7 @@ public class TelaCadClientes extends TelaDeCadastro {
 	}
 
 	void listar() throws SQLException {
+		this.modelo.setNumRows(0);
 		System.out.println("roudou");
 		Connection conn;
 		try {
@@ -185,9 +183,10 @@ public class TelaCadClientes extends TelaDeCadastro {
 			List<Cliente> list = clienteJdbcDAO.listar();
 			String[] strArr = new String[list.size()];
 			for (int i = 0; i < list.size(); i++) {
-				int id = list.get(i).getId();
+				this.modelo.addRow(new Object[] {list.get(i).getId(),list.get(i).getNome(),list.get(i).getEndereco(),list.get(i).getFone(),list.get(i).getEmail()});
+				/*int id = list.get(i).getId();
 				String nome = list.get(i).getNome();
-				strArr[i] = id + " - " + nome;
+				strArr[i] = id + " - " + nome;*/
 			}
 			this.list.setListData(strArr);
 		} catch (ClassNotFoundException e) {

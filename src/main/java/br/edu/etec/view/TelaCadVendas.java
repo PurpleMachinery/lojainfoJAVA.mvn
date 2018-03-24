@@ -36,8 +36,9 @@ public class TelaCadVendas extends TelaDeCadastro {
 	JLabel lblData = new JLabel("Data");
 	JTextField txtData = new JTextField();
 
+	static String[] colunas={"id","fk_cliente","valorTotal","Desconto", "ValorPago", "Data"};
 	public TelaCadVendas() {
-		super(5, 2);
+		super(5, 2, colunas);
 		this.painelParaCampos.add(lblIdCliente);
 		this.painelParaCampos.add(txtIdCliente);
 
@@ -184,6 +185,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 	}
 
 	void listar() throws SQLException {
+		this.modelo.setRowCount(0);
 		Connection conn;
 		try {
 			conn = br.edu.etec.persistence.JdbcUtil.getConnection();
@@ -191,9 +193,10 @@ public class TelaCadVendas extends TelaDeCadastro {
 			List<Vendas> list = vendasJdbcDAO.listar();
 			String[] strArr = new String[list.size()];
 			for (int i = 0; i < list.size(); i++) {
-				String id = Integer.toString(list.get(i).getId());
+				this.modelo.addRow(new Object[] {list.get(i).getId(),list.get(i).getFk_idCliente(),list.get(i).getValorTotal(),list.get(i).getDesconto(),list.get(i).getValorPago()});			
+				/*String id = Integer.toString(list.get(i).getId());
 				int fk_idCliente = list.get(i).getFk_idCliente();
-				strArr[i] = id + " - " + fk_idCliente;
+				strArr[i] = id + " - " + fk_idCliente;*/
 			}
 			// this.list.setListData(strArr);
 		} catch (ClassNotFoundException e) {
