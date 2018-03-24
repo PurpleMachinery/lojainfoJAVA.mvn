@@ -55,10 +55,6 @@ public class TelaCadVendas extends TelaDeCadastro {
 		this.painelParaCampos.add(txtData);
 		System.out.println("Construtor TelaCadVendas()");
 
-		JScrollPane listScroller = new JScrollPane();
-		listScroller.setPreferredSize(new Dimension(250, 80));
-		this.painelListagem.add(listScroller);
-
 		this.btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TelaCadVendas.this.limparFormulario();
