@@ -1,18 +1,21 @@
 package br.edu.etec.view;
 
 import java.awt.Dimension;
-
+import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+
+import com.toedter.calendar.JDateChooser;
 
 import br.edu.etec.model.Vendas;
 import br.edu.etec.persistence.VendasJdbcDAO;
@@ -34,7 +37,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 	JTextField txtValorPago = new JTextField();
 
 	JLabel lblData = new JLabel("Data");
-	JTextField txtData = new JTextField();
+	JDateChooser txtData;
 
 	static String[] colunas={"id","fk_cliente","valorTotal","Desconto", "ValorPago", "Data"};
 	public TelaCadVendas() {
@@ -52,8 +55,9 @@ public class TelaCadVendas extends TelaDeCadastro {
 		this.painelParaCampos.add(txtValorPago);
 
 		this.painelParaCampos.add(lblData);
+		txtData = new JDateChooser("dd/MM/yyyy HH:mm:ss", "##/##/#### ##:##:##", '_');
+		txtData.setDate(new Date());
 		this.painelParaCampos.add(txtData);
-		System.out.println("Construtor TelaCadVendas()");
 
 		this.btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -117,7 +121,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 	void limparFormulario() {
 		System.out.println("void limparFormulario()");
 		this.txtIdCliente.setText("");
-		this.txtData.setText("");
+		this.txtData.setDate(new Date());
 		this.txtDesconto.setText("");
 		this.txtValorPago.setText("");
 		this.txtValorTotal.setText("");
@@ -131,7 +135,8 @@ public class TelaCadVendas extends TelaDeCadastro {
 			this.vendas.setDesconto(Double.parseDouble(this.txtDesconto.getText()));
 			this.vendas.setValorTotal(Double.parseDouble(this.txtValorTotal.getText()));
 			this.vendas.setValorPago(Double.parseDouble(this.txtValorPago.getText()));
-			this.vendas.setData(this.txtData.getText());
+			SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			this.vendas.setData(formatador.format(this.txtData.getDate()));
 			Connection connection = br.edu.etec.persistence.JdbcUtil.getConnection();
 			br.edu.etec.persistence.VendasJdbcDAO vendasJdbcDAO = new VendasJdbcDAO(connection);
 			vendasJdbcDAO.salvar(this.vendas);
