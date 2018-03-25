@@ -58,6 +58,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 		txtData = new JDateChooser("dd/MM/yyyy HH:mm:ss", "##/##/#### ##:##:##", '_');
 		txtData.setDate(new Date());
 		this.painelParaCampos.add(txtData);
+		System.out.println("Construtor TelaCadVendas()");
 
 		this.btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

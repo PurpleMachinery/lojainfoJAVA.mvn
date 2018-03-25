@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -16,7 +17,7 @@ public class App extends JFrame {
 	TelaCadHardware tlaCadHard = new TelaCadHardware();
 	private JMenuBar menuBar;
 
-	public App() {
+	public App() throws ParseException {
 		this.setResizable(false);
 		this.setVisible(true);
 		this.setSize(800, 600);
@@ -28,7 +29,7 @@ public class App extends JFrame {
 		this.pack();
 	}
 
-	private void configuraMenu() {
+	private void configuraMenu() throws ParseException {
 		this.menuBar = new JMenuBar();
 		JMenu menuCadastros = new JMenu("CADASTROS");
 		JMenuItem menuItemClientes = new JMenuItem("Clientes");
@@ -82,7 +83,7 @@ public class App extends JFrame {
 		this.getContentPane().add(menuBar, BorderLayout.NORTH);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 		App app = new App();
 	}
 }

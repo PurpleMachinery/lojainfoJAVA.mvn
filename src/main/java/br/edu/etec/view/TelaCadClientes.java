@@ -6,11 +6,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.ParseException;
 
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
 
 import br.edu.etec.model.Cliente;
 import br.edu.etec.persistence.ClienteJdbcDAO;
@@ -28,15 +31,18 @@ public class TelaCadClientes extends TelaDeCadastro {
 	JTextField txtEndereco = new JTextField();
 
 	JLabel lbFone = new JLabel("Fone");
-	JTextField txtFone = new JTextField();
+	MaskFormatter mascaraFone = new MaskFormatter("(##) #####-####");
+	JFormattedTextField txtFone = new JFormattedTextField(mascaraFone);
 
 	JLabel lbEmail = new JLabel("Email");
 	JTextField txtEmail = new JTextField();
 
 	static String[] colunas={"id","nome","endereco","fone","email"};
-	public TelaCadClientes() {
+	public TelaCadClientes() throws ParseException {
 		super(4, 2, colunas); // quatro linhas e duas colunas Na Hora de add os componentes, considerar a
 						// ordem deles Conforme usamos abaixo
+		mascaraFone.setPlaceholderCharacter('_');
+		
 		this.painelParaCampos.add(lbNome);
 		this.painelParaCampos.add(txtNome);
 
