@@ -44,6 +44,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 	static String[] colunas={"id","fk_cliente","valorTotal","Desconto", "ValorPago", "Data"};
 	public TelaCadVendas() {
 		super(5, 2, colunas);
+		this.tabela.getColumnModel().getColumn(5).setPreferredWidth(170);
 		this.painelParaCampos.add(lblIdCliente);
 		this.painelParaCampos.add(txtIdCliente);
 
