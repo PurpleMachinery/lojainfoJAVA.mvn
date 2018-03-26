@@ -112,6 +112,18 @@ public class TelaCadClientes extends TelaDeCadastro {
 				}
 			}
 		});
+		
+		this.btnProcuraId.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				try {
+					TelaCadClientes.this.pId();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 	}
 
 	@Override
@@ -174,6 +186,22 @@ public class TelaCadClientes extends TelaDeCadastro {
 			ClienteJdbcDAO clienteJdbcDAO = new ClienteJdbcDAO(conn);
 			clienteJdbcDAO.excluir(idInt);
 			this.limparFormulario();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	void pId() throws SQLException {
+		String id = this.txtId.getText();
+		try {
+			int idInt = Integer.parseInt(id);
+			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
+			ClienteJdbcDAO clienteJdbcDAO = new ClienteJdbcDAO(conn);
+			Cliente cc = clienteJdbcDAO.findById(idInt);
+			txtEmail.setText(cc.getEmail());
+			txtEndereco.setText(cc.getEndereco());
+			txtFone.setText(cc.getFone());
+			txtNome.setText(cc.getNome());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

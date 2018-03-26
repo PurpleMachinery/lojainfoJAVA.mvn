@@ -22,6 +22,7 @@ public abstract class TelaDeCadastro extends JPanel {
 	JButton btnExcluir = new JButton("Excluir");
 	JButton btnLimpar = new JButton("Limpar");
 	JButton btnCancelar = new JButton("Cancelar");
+	JButton btnProcuraId = new JButton("P.Id");
 	JTextField txtId = new JTextField("Digite Id Para Alterar");
 
 	DefaultTableModel modelo = new DefaultTableModel();
@@ -48,6 +49,7 @@ public abstract class TelaDeCadastro extends JPanel {
 		this.painelDeBotoes.add(btnLimpar);
 		this.painelDeBotoes.add(btnExcluir);
 		this.painelDeBotoes.add(btnCancelar);
+		this.painelDeBotoes.add(btnProcuraId);
 		this.painelDeBotoes.add(txtId);
 		this.add(painelDeBotoes, BorderLayout.CENTER);
 		
