@@ -164,10 +164,12 @@ public class TelaCadClientes extends TelaDeCadastro {
 			ClienteJdbcDAO clienteJdbcDAO = new ClienteJdbcDAO(conn);
 			Cliente cli = clienteJdbcDAO.findById(idInt);
 			if (cli != null) {
-				this.txtNome.setText(cli.getNome());
-				this.txtEndereco.setText(cli.getEndereco());
-				this.txtFone.setText(cli.getFone());
-				this.txtEmail.setText(cli.getEmail());
+				this.cliente.setId(Integer.parseInt(txtId.getText()));
+				this.cliente.setNome(txtNome.getText());
+				this.cliente.setEndereco(txtEndereco.getText());
+				this.cliente.setFone(txtFone.getText());
+				this.cliente.setEmail(txtEmail.getText());
+				clienteJdbcDAO.alterar(this.cliente);
 			} else {
 				JOptionPane.showMessageDialog(this, "Nao ha clientes com esse id");
 			}

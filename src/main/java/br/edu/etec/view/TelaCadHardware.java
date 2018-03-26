@@ -162,10 +162,12 @@ public class TelaCadHardware extends TelaDeCadastro {
 			HardwareJdbcDAO hardwareJdbcDAO = new HardwareJdbcDAO(conn);
 			Hardware cli = hardwareJdbcDAO.findById(idInt);
 			if (cli != null) {
-				this.txtDescricao.setText(cli.getDescricao());
-				this.txtPrecoUnit.setText("" + cli.getPrecoUnitario());
-				this.txtQtdAtual.setText("" + cli.getQtdAtual());
-				this.txtQtdMinima.setText("" + cli.getQtdMinima());
+				this.hardware.setId(Integer.parseInt(this.txtId.getText()));
+				this.hardware.setDescricao(this.txtDescricao.getText());
+				this.hardware.setPrecoUnitario(Double.parseDouble(this.txtPrecoUnit.getText()));
+				this.hardware.setQtdAtual(Integer.parseInt(this.txtQtdAtual.getText()));
+				this.hardware.setQtdMinima(Integer.parseInt(this.txtQtdMinima.getText()));
+				hardwareJdbcDAO.alterar(this.hardware);
 			} else {
 				JOptionPane.showMessageDialog(this, "Nao ha hardwares com esse id");
 			}

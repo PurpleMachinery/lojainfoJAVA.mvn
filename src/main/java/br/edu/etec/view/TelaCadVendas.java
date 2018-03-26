@@ -174,10 +174,14 @@ public class TelaCadVendas extends TelaDeCadastro {
 			VendasJdbcDAO vendasJdbcDAO = new VendasJdbcDAO(conn);
 			Vendas cli = vendasJdbcDAO.findById(idInt);
 			if (cli != null) {
-				this.txtIdCliente.setText("" + cli.getFk_idCliente());
-				this.txtDesconto.setText("" + cli.getDesconto());
-				this.txtValorPago.setText("" + cli.getValorPago());
-				this.txtValorTotal.setText("" + cli.getValorTotal());
+				this.vendas.setId(Integer.parseInt(this.txtId.getText()));
+				this.vendas.setFk_idCliente(Integer.parseInt(this.txtIdCliente.getText()));
+				this.vendas.setDesconto(Double.parseDouble(this.txtDesconto.getText()));
+				this.vendas.setValorTotal(Double.parseDouble(this.txtValorTotal.getText()));
+				this.vendas.setValorPago(Double.parseDouble(this.txtValorPago.getText()));
+				SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				this.vendas.setData(formatador.format(this.txtData.getDate()));
+				vendasJdbcDAO.alterar(this.vendas);
 			} else {
 				JOptionPane.showMessageDialog(this, "Nao ha vendas com esse id");
 			}
