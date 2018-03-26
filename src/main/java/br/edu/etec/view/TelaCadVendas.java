@@ -17,7 +17,9 @@ import javax.swing.JTextField;
 
 import com.toedter.calendar.JDateChooser;
 
+import br.edu.etec.model.Hardware;
 import br.edu.etec.model.Vendas;
+import br.edu.etec.persistence.HardwareJdbcDAO;
 import br.edu.etec.persistence.VendasJdbcDAO;
 
 public class TelaCadVendas extends TelaDeCadastro {
@@ -116,6 +118,18 @@ public class TelaCadVendas extends TelaDeCadastro {
 				}
 			}
 		});
+
+		this.btnProcuraId.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				try {
+					TelaCadVendas.this.pId();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 	}
 
 	@Override
@@ -186,6 +200,28 @@ public class TelaCadVendas extends TelaDeCadastro {
 		}
 	}
 
+	void pId() throws SQLException {
+		String id = this.txtId.getText();
+		try {
+			int idInt = Integer.parseInt(id);
+			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
+			VendasJdbcDAO vendasJdbcDAO = new VendasJdbcDAO(conn);
+			Vendas cc = vendasJdbcDAO.findById(idInt);
+			
+			SimpleDateFormat mascareno = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+			Date dte = mascareno.parse(cc.getData());
+			txtData.setDate(dte);
+			
+			
+			txtDesconto.setText("" + cc.getDesconto());
+			txtIdCliente.setText("" + cc.getFk_idCliente());
+			txtValorPago.setText("" + cc.getValorPago());
+			txtValorTotal.setText("" + cc.getValorTotal());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	void listar() throws SQLException {
 		this.modelo.setRowCount(0);
 		Connection conn;
@@ -195,7 +231,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 			List<Vendas> list = vendasJdbcDAO.listar();
 			String[] strArr = new String[list.size()];
 			for (int i = 0; i < list.size(); i++) {
-				this.modelo.addRow(new Object[] {list.get(i).getId(),list.get(i).getFk_idCliente(),list.get(i).getValorTotal(),list.get(i).getDesconto(),list.get(i).getValorPago()});			
+				this.modelo.addRow(new Object[] {list.get(i).getId(),list.get(i).getFk_idCliente(),list.get(i).getValorTotal(),list.get(i).getDesconto(),list.get(i).getValorPago(),list.get(i).getData()});			
 				/*String id = Integer.toString(list.get(i).getId());
 				int fk_idCliente = list.get(i).getFk_idCliente();
 				strArr[i] = id + " - " + fk_idCliente;*/

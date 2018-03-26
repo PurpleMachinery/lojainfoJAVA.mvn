@@ -92,21 +92,20 @@ public class VendasJdbcDAO {
 	}
 
 	public Vendas findById(Integer id) {
-		String sql = "select * from tbVendas where id_hardware = " + id;
+		String sql = "select * from tbVendas where pk_idVenda = " + id;
 		System.out.println(sql);
-		Vendas hardware = null;
+		Vendas venda = null;
 		try {
 			PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
 			ResultSet rs = prepareStatement.executeQuery();
 			while (rs.next()) {
-				hardware = new Vendas();
+				venda = new Vendas();
 				double desconto = Double.parseDouble(rs.getString("desconto"));
 				int fk_cliente = Integer.parseInt(rs.getString("Fk_idCliente"));
 				double valorPago = Double.parseDouble(rs.getString("valorPago"));
 				Double valorTotal = Double.parseDouble(rs.getString("valorTotal"));
 				String data = rs.getString("data");
-				
-				Vendas venda = new Vendas();
+
 				venda.setId(id);
 				venda.setDesconto(desconto);
 				venda.setFk_idCliente(fk_cliente);
@@ -118,6 +117,6 @@ public class VendasJdbcDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return hardware;
+		return venda;
 	}
 }

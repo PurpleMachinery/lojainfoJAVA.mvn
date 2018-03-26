@@ -13,7 +13,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import br.edu.etec.model.Cliente;
 import br.edu.etec.model.Hardware;
+import br.edu.etec.persistence.ClienteJdbcDAO;
 import br.edu.etec.persistence.HardwareJdbcDAO;
 
 public class TelaCadHardware extends TelaDeCadastro {
@@ -32,7 +34,8 @@ public class TelaCadHardware extends TelaDeCadastro {
 	JLabel lbPrecoUnit = new JLabel("Preco Unitario");
 	JTextField txtPrecoUnit = new JTextField();
 
-	static String[] colunas={"id","Descricao","qtdAtual","qtdMinima", "precoUnit"};
+	static String[] colunas = { "id", "Descricao", "qtdAtual", "qtdMinima", "precoUnit" };
+
 	public TelaCadHardware() {
 		super(4, 2, colunas);
 		this.painelParaCampos.add(lbDescricao);
@@ -47,7 +50,7 @@ public class TelaCadHardware extends TelaDeCadastro {
 		this.painelParaCampos.add(lbQtdMinima);
 		this.painelParaCampos.add(txtQtdMinima);
 		System.out.println("Construtor TelaCadHardware()");
-		
+
 		this.btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TelaCadHardware.this.limparFormulario();
@@ -100,6 +103,18 @@ public class TelaCadHardware extends TelaDeCadastro {
 					TelaCadHardware.this.excluir();
 				} catch (SQLException e1) {
 					System.out.println("Excluir nao funfou");
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		this.btnProcuraId.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				try {
+					TelaCadHardware.this.pId();
+				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
 			}
@@ -174,6 +189,22 @@ public class TelaCadHardware extends TelaDeCadastro {
 		}
 	}
 
+	void pId() throws SQLException {
+		String id = this.txtId.getText();
+		try {
+			int idInt = Integer.parseInt(id);
+			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
+			HardwareJdbcDAO hardwareJdbcDAO = new HardwareJdbcDAO(conn);
+			Hardware cc = hardwareJdbcDAO.findById(idInt);
+			txtDescricao.setText(cc.getDescricao());
+			txtPrecoUnit.setText("" + cc.getPrecoUnitario());
+			txtQtdAtual.setText("" + cc.getQtdAtual());
+			txtQtdMinima.setText("" + cc.getQtdMinima());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	void listar() throws SQLException {
 		this.modelo.setNumRows(0);
 		Connection conn;
@@ -183,10 +214,12 @@ public class TelaCadHardware extends TelaDeCadastro {
 			List<Hardware> list = hardwareJdbcDAO.listar();
 			String[] strArr = new String[list.size()];
 			for (int i = 0; i < list.size(); i++) {
-				this.modelo.addRow(new Object[] {list.get(i).getId(),list.get(i).getDescricao(),list.get(i).getQtdAtual(),list.get(i).getQtdMinima(),list.get(i).getPrecoUnitario()});
-				/*int id = list.get(i).getId();
-				String descricao = list.get(i).getDescricao();
-				strArr[i] = id + " - " + descricao;*/
+				this.modelo.addRow(new Object[] { list.get(i).getId(), list.get(i).getDescricao(),
+						list.get(i).getQtdAtual(), list.get(i).getQtdMinima(), list.get(i).getPrecoUnitario() });
+				/*
+				 * int id = list.get(i).getId(); String descricao = list.get(i).getDescricao();
+				 * strArr[i] = id + " - " + descricao;
+				 */
 			}
 			this.list.setListData(strArr);
 		} catch (ClassNotFoundException e) {
