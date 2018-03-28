@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.edu.etec.model.Id;
 import br.edu.etec.model.Vendas;
 
 public class VendasJdbcDAO {
@@ -81,6 +82,26 @@ public class VendasJdbcDAO {
 			e.printStackTrace();
 		}
 		return vendas;
+	}
+
+	public List<Id> listarIds() {
+		String sql = "select pk_idVenda from tbVendas";
+		System.out.println(sql);
+		List<Id> ids = new ArrayList<Id>();
+		try {
+			PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
+			ResultSet rs = prepareStatement.executeQuery();
+			while (rs.next()) {
+				int pk = rs.getInt("pk_idVenda");
+				Id id= new Id();
+				id.setId(pk);
+				ids.add(id);
+			}
+			prepareStatement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ids;
 	}
 
 	public Vendas findById(Integer id) {

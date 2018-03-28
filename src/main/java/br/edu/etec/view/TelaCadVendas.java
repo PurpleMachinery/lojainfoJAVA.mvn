@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -16,7 +17,9 @@ import javax.swing.JTextField;
 
 import com.toedter.calendar.JDateChooser;
 
+import br.edu.etec.model.Id;
 import br.edu.etec.model.Vendas;
+import br.edu.etec.persistence.HardwareJdbcDAO;
 import br.edu.etec.persistence.VendasJdbcDAO;
 
 public class TelaCadVendas extends TelaDeCadastro {
@@ -83,11 +86,6 @@ public class TelaCadVendas extends TelaDeCadastro {
 
 		this.btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					Integer.parseInt(txtId.getText());				
-				} catch (Exception e1) {
-					txtId.setText(JOptionPane.showInputDialog("Digite um id válido para alterar"));
-				}
 				try {
 					TelaCadVendas.this.alterar();
 					TelaCadVendas.this.listar();
@@ -171,12 +169,12 @@ public class TelaCadVendas extends TelaDeCadastro {
 	@Override
 	void alterar() throws SQLException {
 		try {
-			int idInt = Integer.parseInt(this.txtId.getText());
+			int idInt = Integer.parseInt((String) this.txtId.getSelectedItem());
 			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
 			VendasJdbcDAO vendasJdbcDAO = new VendasJdbcDAO(conn);
 			Vendas cli = vendasJdbcDAO.findById(idInt);
 			if (cli != null) {
-				this.vendas.setId(Integer.parseInt(this.txtId.getText()));
+				this.vendas.setId(Integer.parseInt((String) this.txtId.getSelectedItem()));
 				this.vendas.setFk_idCliente(Integer.parseInt(this.txtIdCliente.getText()));
 				this.vendas.setDesconto(Double.parseDouble(this.txtDesconto.getText()));
 				this.vendas.setValorTotal(Double.parseDouble(this.txtValorTotal.getText()));
@@ -194,7 +192,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 
 	@Override
 	void excluir() throws SQLException {
-		String id = this.txtId.getText();
+		String id =""+ this.txtId.getSelectedItem();
 		try {
 			int idInt = Integer.parseInt(id);
 			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
@@ -207,7 +205,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 	}
 
 	void pId() throws SQLException {
-		String id = this.txtId.getText();
+		String id =""+ this.txtId.getSelectedItem();
 		try {
 			int idInt = Integer.parseInt(id);
 			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
@@ -240,6 +238,30 @@ public class TelaCadVendas extends TelaDeCadastro {
 				int fk_idCliente = list.get(i).getFk_idCliente();
 				strArr[i] = id + " - " + fk_idCliente;*/
 			}
+			TelaCadVendas.this.setarIds();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	void setarIds() throws SQLException {
+		Connection conn;
+		try {
+			conn = br.edu.etec.persistence.JdbcUtil.getConnection();
+			VendasJdbcDAO clienteJdbcDAO = new VendasJdbcDAO(conn);
+			List<Id> list = clienteJdbcDAO.listarIds();
+			String[] strArr = new String[list.size()];
+			this.txtId.setModel(new DefaultComboBoxModel());
+			for (int i = 0; i < list.size(); i++) {
+				this.txtId.addItem(list.get(i).getId());
+				/*
+				 * int id = list.get(i).getId(); String nome = list.get(i).getNome(); strArr[i]
+				 * = id + " - " + nome;
+				 */
+			}
+			//this.list.setListData(strArr);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

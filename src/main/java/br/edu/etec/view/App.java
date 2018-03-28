@@ -1,6 +1,7 @@
 package br.edu.etec.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -35,8 +36,8 @@ public class App extends JFrame {
 		JMenuItem menuItemClientes = new JMenuItem("Clientes");
 		menuItemClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				App.this.tlaCadCli.txtId.setText("Digite Id Para Alterar");
 				System.out.println("menuClieActionPerformed...");
+				App.this.tlaCadCli.txtId.setPreferredSize(new Dimension(50, 27));
 				App.this.tlaCadHard.setVisible(false);
 				App.this.tlaCadVdas.setVisible(false);
 				App.this.tlaCadCli.setVisible(true);
@@ -50,8 +51,8 @@ public class App extends JFrame {
 		JMenuItem menuItemHardware = new JMenuItem("Hardware");
 		menuItemHardware.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				App.this.tlaCadHard.txtId.setText("Digite Id Para Alterar");
 				System.out.println("menuHardActionPerformed...");
+				App.this.tlaCadHard.txtId.setPreferredSize(new Dimension(170, 50));
 				App.this.tlaCadCli.setVisible(false);
 				App.this.tlaCadVdas.setVisible(false);
 				App.this.tlaCadHard.setVisible(true);
@@ -66,7 +67,7 @@ public class App extends JFrame {
 		JMenuItem menuItemVenda = new JMenuItem("Vendas");
 		menuItemVenda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				App.this.tlaCadVdas.txtId.setText("Digite Id Para Alterar");
+				App.this.tlaCadVdas.txtId.setPreferredSize(new Dimension(170, 50));;
 				System.out.println("menuVendasActionPerformed...");
 				App.this.tlaCadCli.setVisible(false);
 				App.this.tlaCadHard.setVisible(false);

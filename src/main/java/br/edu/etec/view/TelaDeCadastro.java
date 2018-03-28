@@ -24,7 +24,7 @@ public abstract class TelaDeCadastro extends JPanel {
 	JButton btnLimpar = new JButton("Limpar");
 	JButton btnCancelar = new JButton("Cancelar");
 	JButton btnProcuraId = new JButton("P.Id");
-	JTextField txtId = new JTextField();
+	JComboBox txtId = new JComboBox();
 
 	DefaultTableModel modelo = new DefaultTableModel();
 	JTable tabela = new JTable();

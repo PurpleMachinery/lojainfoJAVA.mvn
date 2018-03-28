@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -15,6 +16,7 @@ import javax.swing.JTextField;
 
 import br.edu.etec.model.Cliente;
 import br.edu.etec.model.Hardware;
+import br.edu.etec.model.Id;
 import br.edu.etec.persistence.ClienteJdbcDAO;
 import br.edu.etec.persistence.HardwareJdbcDAO;
 
@@ -81,11 +83,6 @@ public class TelaCadHardware extends TelaDeCadastro {
 
 		this.btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					int idContido = Integer.parseInt(txtId.getText());
-				} catch (Exception e1) {
-					txtId.setText(JOptionPane.showInputDialog("Digite um id válido para alterar"));
-				}
 				try {
 					TelaCadHardware.this.alterar();
 					TelaCadHardware.this.listar();
@@ -169,14 +166,14 @@ public class TelaCadHardware extends TelaDeCadastro {
 
 	@Override
 	void alterar() throws SQLException {
-		String id = this.txtId.getText();
+		String id =""+ this.txtId.getSelectedItem();
 		try {
 			int idInt = Integer.parseInt(id);
 			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
 			HardwareJdbcDAO hardwareJdbcDAO = new HardwareJdbcDAO(conn);
 			Hardware cli = hardwareJdbcDAO.findById(idInt);
 			if (cli != null) {
-				this.hardware.setId(Integer.parseInt(this.txtId.getText()));
+				this.hardware.setId(Integer.parseInt((String) this.txtId.getSelectedItem()));
 				this.hardware.setDescricao(this.txtDescricao.getText());
 				this.hardware.setPrecoUnitario(Double.parseDouble(this.txtPrecoUnit.getText()));
 				this.hardware.setQtdAtual(Integer.parseInt(this.txtQtdAtual.getText()));
@@ -193,7 +190,7 @@ public class TelaCadHardware extends TelaDeCadastro {
 
 	@Override
 	void excluir() throws SQLException {
-		String id = this.txtId.getText();
+		String id =""+ this.txtId.getSelectedItem();
 		try {
 			int idInt = Integer.parseInt(id);
 			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
@@ -206,7 +203,7 @@ public class TelaCadHardware extends TelaDeCadastro {
 	}
 
 	void pId() throws SQLException {
-		String id = this.txtId.getText();
+		String id =""+ this.txtId.getSelectedItem();
 		try {
 			int idInt = Integer.parseInt(id);
 			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
@@ -237,10 +234,34 @@ public class TelaCadHardware extends TelaDeCadastro {
 				 * strArr[i] = id + " - " + descricao;
 				 */
 			}
+			TelaCadHardware.this.setarIds();
 			this.list.setListData(strArr);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	void setarIds() throws SQLException {
+		Connection conn;
+		try {
+			conn = br.edu.etec.persistence.JdbcUtil.getConnection();
+			HardwareJdbcDAO clienteJdbcDAO = new HardwareJdbcDAO(conn);
+			List<Id> list = clienteJdbcDAO.listarIds();
+			String[] strArr = new String[list.size()];
+			this.txtId.setModel(new DefaultComboBoxModel());
+			for (int i = 0; i < list.size(); i++) {
+				this.txtId.addItem(list.get(i).getId());
+				/*
+				 * int id = list.get(i).getId(); String nome = list.get(i).getNome(); strArr[i]
+				 * = id + " - " + nome;
+				 */
+			}
+			this.list.setListData(strArr);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 }

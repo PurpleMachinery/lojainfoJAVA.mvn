@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.etec.model.Hardware;
+import br.edu.etec.model.Id;
 
 public class HardwareJdbcDAO {
 	private Connection conn;
@@ -79,6 +80,26 @@ public class HardwareJdbcDAO {
 			e.printStackTrace();
 		}
 		return hardwares;
+	}
+
+	public List<Id> listarIds() {
+		String sql = "select pk_idHardware from tbHardware";
+		System.out.println(sql);
+		List<Id> ids = new ArrayList<Id>();
+		try {
+			PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
+			ResultSet rs = prepareStatement.executeQuery();
+			while (rs.next()) {
+				int pk = rs.getInt("pk_idHardware");
+				Id id= new Id();
+				id.setId(pk);
+				ids.add(id);
+			}
+			prepareStatement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ids;
 	}
 
 	public Hardware findById(Integer id) {
