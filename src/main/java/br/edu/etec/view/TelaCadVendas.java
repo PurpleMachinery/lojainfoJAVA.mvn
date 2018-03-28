@@ -250,8 +250,8 @@ public class TelaCadVendas extends TelaDeCadastro {
 		Connection conn;
 		try {
 			conn = br.edu.etec.persistence.JdbcUtil.getConnection();
-			VendasJdbcDAO clienteJdbcDAO = new VendasJdbcDAO(conn);
-			List<Id> list = clienteJdbcDAO.listarIds();
+			VendasJdbcDAO vendaJdbcDAO = new VendasJdbcDAO(conn);
+			List<Id> list = vendaJdbcDAO.listarIds();
 			String[] strArr = new String[list.size()];
 			this.txtId.setModel(new DefaultComboBoxModel());
 			for (int i = 0; i < list.size(); i++) {

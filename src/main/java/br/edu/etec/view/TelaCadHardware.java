@@ -246,8 +246,8 @@ public class TelaCadHardware extends TelaDeCadastro {
 		Connection conn;
 		try {
 			conn = br.edu.etec.persistence.JdbcUtil.getConnection();
-			HardwareJdbcDAO clienteJdbcDAO = new HardwareJdbcDAO(conn);
-			List<Id> list = clienteJdbcDAO.listarIds();
+			HardwareJdbcDAO hardwareJdbcDAO = new HardwareJdbcDAO(conn);
+			List<Id> list = hardwareJdbcDAO.listarIds();
 			String[] strArr = new String[list.size()];
 			this.txtId.setModel(new DefaultComboBoxModel());
 			for (int i = 0; i < list.size(); i++) {
