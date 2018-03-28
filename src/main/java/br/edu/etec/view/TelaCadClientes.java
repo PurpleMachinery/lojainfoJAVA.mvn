@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
 
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -37,12 +39,13 @@ public class TelaCadClientes extends TelaDeCadastro {
 	JLabel lbEmail = new JLabel("Email");
 	JTextField txtEmail = new JTextField();
 
-	static String[] colunas={"id","nome","endereco","fone","email"};
+	static String[] colunas = { "id", "nome", "endereco", "fone", "email" };
+
 	public TelaCadClientes() throws ParseException {
 		super(4, 2, colunas); // quatro linhas e duas colunas Na Hora de add os componentes, considerar a
-						// ordem deles Conforme usamos abaixo
+		// ordem deles Conforme usamos abaixo
 		mascaraFone.setPlaceholderCharacter('_');
-		
+
 		this.painelParaCampos.add(lbNome);
 		this.painelParaCampos.add(txtNome);
 
@@ -54,6 +57,12 @@ public class TelaCadClientes extends TelaDeCadastro {
 
 		this.painelParaCampos.add(lbEmail);
 		this.painelParaCampos.add(txtEmail);
+		try {
+			TelaCadClientes.this.listar();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		System.out.println("Construtor TelaCadClientes()");
 
 		this.btnLimpar.addActionListener(new ActionListener() {
@@ -65,6 +74,7 @@ public class TelaCadClientes extends TelaDeCadastro {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					TelaCadClientes.this.salvar();
+					TelaCadClientes.this.listar();
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -80,7 +90,13 @@ public class TelaCadClientes extends TelaDeCadastro {
 		this.btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					Integer.parseInt(txtId.getText());				
+				} catch (Exception e1) {
+					txtId.setText(JOptionPane.showInputDialog("Digite um id válido para alterar"));
+				}
+				try {
 					TelaCadClientes.this.alterar();
+					TelaCadClientes.this.listar();
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -99,22 +115,23 @@ public class TelaCadClientes extends TelaDeCadastro {
 				}
 			}
 		});
-		
+
 		this.btnExcluir.addActionListener(new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				try {
 					TelaCadClientes.this.excluir();
+					TelaCadClientes.this.listar();
 				} catch (SQLException e1) {
 					System.out.println("Excluir nao funfou");
 					e1.printStackTrace();
 				}
 			}
 		});
-		
+
 		this.btnProcuraId.addActionListener(new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				try {
@@ -137,17 +154,22 @@ public class TelaCadClientes extends TelaDeCadastro {
 
 	@Override
 	void salvar() {
-		try {
-			this.cliente.setNome(this.txtNome.getText());
-			this.cliente.setEndereco(this.txtEndereco.getText());
-			this.cliente.setFone(this.txtFone.getText());
-			this.cliente.setEmail(this.txtEmail.getText());
-			Connection connection = br.edu.etec.persistence.JdbcUtil.getConnection();
-			br.edu.etec.persistence.ClienteJdbcDAO clienteJdbcDAO = new ClienteJdbcDAO(connection);
-			clienteJdbcDAO.salvar(this.cliente);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (this.txtNome.getText().isEmpty() || this.txtEmail.getText().isEmpty()
+				|| this.txtEndereco.getText().isEmpty() || this.txtFone.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Todos os campos tem que estar preenchidos!");
+		} else {
+			try {
+				this.cliente.setNome(this.txtNome.getText());
+				this.cliente.setEndereco(this.txtEndereco.getText());
+				this.cliente.setFone(this.txtFone.getText());
+				this.cliente.setEmail(this.txtEmail.getText());
+				Connection connection = br.edu.etec.persistence.JdbcUtil.getConnection();
+				br.edu.etec.persistence.ClienteJdbcDAO clienteJdbcDAO = new ClienteJdbcDAO(connection);
+				clienteJdbcDAO.salvar(this.cliente);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -192,7 +214,7 @@ public class TelaCadClientes extends TelaDeCadastro {
 			e.printStackTrace();
 		}
 	}
-	
+
 	void pId() throws SQLException {
 		String id = this.txtId.getText();
 		try {
@@ -211,7 +233,6 @@ public class TelaCadClientes extends TelaDeCadastro {
 
 	void listar() throws SQLException {
 		this.modelo.setNumRows(0);
-		System.out.println("roudou");
 		Connection conn;
 		try {
 			conn = br.edu.etec.persistence.JdbcUtil.getConnection();
@@ -219,10 +240,12 @@ public class TelaCadClientes extends TelaDeCadastro {
 			List<Cliente> list = clienteJdbcDAO.listar();
 			String[] strArr = new String[list.size()];
 			for (int i = 0; i < list.size(); i++) {
-				this.modelo.addRow(new Object[] {list.get(i).getId(),list.get(i).getNome(),list.get(i).getEndereco(),list.get(i).getFone(),list.get(i).getEmail()});
-				/*int id = list.get(i).getId();
-				String nome = list.get(i).getNome();
-				strArr[i] = id + " - " + nome;*/
+				this.modelo.addRow(new Object[] { list.get(i).getId(), list.get(i).getNome(), list.get(i).getEndereco(),
+						list.get(i).getFone(), list.get(i).getEmail() });
+				/*
+				 * int id = list.get(i).getId(); String nome = list.get(i).getNome(); strArr[i]
+				 * = id + " - " + nome;
+				 */
 			}
 			this.list.setListData(strArr);
 		} catch (ClassNotFoundException e) {

@@ -49,8 +49,14 @@ public class TelaCadHardware extends TelaDeCadastro {
 
 		this.painelParaCampos.add(lbQtdMinima);
 		this.painelParaCampos.add(txtQtdMinima);
+		try {
+			TelaCadHardware.this.listar();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		System.out.println("Construtor TelaCadHardware()");
-
+		
 		this.btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TelaCadHardware.this.limparFormulario();
@@ -60,6 +66,7 @@ public class TelaCadHardware extends TelaDeCadastro {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					TelaCadHardware.this.salvar();
+					TelaCadHardware.this.listar();
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -75,7 +82,13 @@ public class TelaCadHardware extends TelaDeCadastro {
 		this.btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					int idContido = Integer.parseInt(txtId.getText());
+				} catch (Exception e1) {
+					txtId.setText(JOptionPane.showInputDialog("Digite um id válido para alterar"));
+				}
+				try {
 					TelaCadHardware.this.alterar();
+					TelaCadHardware.this.listar();
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -101,6 +114,7 @@ public class TelaCadHardware extends TelaDeCadastro {
 				// TODO Auto-generated method stub
 				try {
 					TelaCadHardware.this.excluir();
+					TelaCadHardware.this.listar();
 				} catch (SQLException e1) {
 					System.out.println("Excluir nao funfou");
 					e1.printStackTrace();

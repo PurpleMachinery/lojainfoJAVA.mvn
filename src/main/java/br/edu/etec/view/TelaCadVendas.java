@@ -1,10 +1,10 @@
 package br.edu.etec.view;
 
-import java.awt.Dimension;
 import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -12,18 +12,14 @@ import java.text.SimpleDateFormat;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import com.toedter.calendar.JDateChooser;
 
-import br.edu.etec.model.Hardware;
 import br.edu.etec.model.Vendas;
-import br.edu.etec.persistence.HardwareJdbcDAO;
 import br.edu.etec.persistence.VendasJdbcDAO;
 
 public class TelaCadVendas extends TelaDeCadastro {
-	JList list = new JList();
 	Vendas vendas = new Vendas();
 
 	JLabel lblIdCliente = new JLabel("ID Cliente");
@@ -35,16 +31,13 @@ public class TelaCadVendas extends TelaDeCadastro {
 	JLabel lblDesconto = new JLabel("Desconto");
 	JTextField txtDesconto = new JTextField();
 
-	JLabel lblValorPago = new JLabel("Valor Pago");
-	JTextField txtValorPago = new JTextField();
-
 	JLabel lblData = new JLabel("Data");
 	JDateChooser txtData;
-
-	static String[] colunas={"id","fk_cliente","valorTotal","Desconto", "ValorPago", "Data"};
+	
+	static String[] colunas={"id","fk_cliente","valorTotal","Desconto", "Data"};
 	public TelaCadVendas() {
-		super(5, 2, colunas);
-		this.tabela.getColumnModel().getColumn(5).setPreferredWidth(170);
+		super(4, 2, colunas);
+		this.tabela.getColumnModel().getColumn(4).setPreferredWidth(170);
 		this.painelParaCampos.add(lblIdCliente);
 		this.painelParaCampos.add(txtIdCliente);
 
@@ -54,13 +47,16 @@ public class TelaCadVendas extends TelaDeCadastro {
 		this.painelParaCampos.add(lblDesconto);
 		this.painelParaCampos.add(txtDesconto);
 
-		this.painelParaCampos.add(lblValorPago);
-		this.painelParaCampos.add(txtValorPago);
-
 		this.painelParaCampos.add(lblData);
 		txtData = new JDateChooser("dd/MM/yyyy HH:mm:ss", "##/##/#### ##:##:##", '_');
 		txtData.setDate(new Date());
 		this.painelParaCampos.add(txtData);
+		try {
+			TelaCadVendas.this.listar();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		System.out.println("Construtor TelaCadVendas()");
 
 		this.btnLimpar.addActionListener(new ActionListener() {
@@ -72,6 +68,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					TelaCadVendas.this.salvar();
+					TelaCadVendas.this.listar();
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -87,7 +84,13 @@ public class TelaCadVendas extends TelaDeCadastro {
 		this.btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					Integer.parseInt(txtId.getText());				
+				} catch (Exception e1) {
+					txtId.setText(JOptionPane.showInputDialog("Digite um id válido para alterar"));
+				}
+				try {
 					TelaCadVendas.this.alterar();
+					TelaCadVendas.this.listar();
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -113,6 +116,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 				// TODO Auto-generated method stub
 				try {
 					TelaCadVendas.this.excluir();
+					TelaCadVendas.this.listar();
 				} catch (SQLException e1) {
 					System.out.println("Excluir nao funfou");
 					e1.printStackTrace();
@@ -139,7 +143,6 @@ public class TelaCadVendas extends TelaDeCadastro {
 		this.txtIdCliente.setText("");
 		this.txtData.setDate(new Date());
 		this.txtDesconto.setText("");
-		this.txtValorPago.setText("");
 		this.txtValorTotal.setText("");
 	}
 
@@ -150,7 +153,6 @@ public class TelaCadVendas extends TelaDeCadastro {
 			this.vendas.setFk_idCliente(Integer.parseInt(this.txtIdCliente.getText()));
 			this.vendas.setDesconto(Double.parseDouble(this.txtDesconto.getText()));
 			this.vendas.setValorTotal(Double.parseDouble(this.txtValorTotal.getText()));
-			this.vendas.setValorPago(Double.parseDouble(this.txtValorPago.getText()));
 			SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			this.vendas.setData(formatador.format(this.txtData.getDate()));
 			Connection connection = br.edu.etec.persistence.JdbcUtil.getConnection();
@@ -178,7 +180,6 @@ public class TelaCadVendas extends TelaDeCadastro {
 				this.vendas.setFk_idCliente(Integer.parseInt(this.txtIdCliente.getText()));
 				this.vendas.setDesconto(Double.parseDouble(this.txtDesconto.getText()));
 				this.vendas.setValorTotal(Double.parseDouble(this.txtValorTotal.getText()));
-				this.vendas.setValorPago(Double.parseDouble(this.txtValorPago.getText()));
 				SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				this.vendas.setData(formatador.format(this.txtData.getDate()));
 				vendasJdbcDAO.alterar(this.vendas);
@@ -220,7 +221,6 @@ public class TelaCadVendas extends TelaDeCadastro {
 			
 			txtDesconto.setText("" + cc.getDesconto());
 			txtIdCliente.setText("" + cc.getFk_idCliente());
-			txtValorPago.setText("" + cc.getValorPago());
 			txtValorTotal.setText("" + cc.getValorTotal());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -234,14 +234,12 @@ public class TelaCadVendas extends TelaDeCadastro {
 			conn = br.edu.etec.persistence.JdbcUtil.getConnection();
 			VendasJdbcDAO vendasJdbcDAO = new VendasJdbcDAO(conn);
 			List<Vendas> list = vendasJdbcDAO.listar();
-			String[] strArr = new String[list.size()];
 			for (int i = 0; i < list.size(); i++) {
-				this.modelo.addRow(new Object[] {list.get(i).getId(),list.get(i).getFk_idCliente(),list.get(i).getValorTotal(),list.get(i).getDesconto(),list.get(i).getValorPago(),list.get(i).getData()});			
+				this.modelo.addRow(new Object[] {list.get(i).getId(),list.get(i).getFk_idCliente(),list.get(i).getValorTotal(),list.get(i).getDesconto(),list.get(i).getData()});			
 				/*String id = Integer.toString(list.get(i).getId());
 				int fk_idCliente = list.get(i).getFk_idCliente();
 				strArr[i] = id + " - " + fk_idCliente;*/
 			}
-			// this.list.setListData(strArr);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

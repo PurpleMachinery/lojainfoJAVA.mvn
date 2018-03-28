@@ -3,10 +3,8 @@ package br.edu.etec.model;
 public class Vendas {
 	Integer id;
 	int fk_idCliente;
-	//data DATE NOT NULL **como colocar?
 	double valorTotal;
 	double desconto;
-	double valorPago;
 	String data;
 	
 	public String getData() {
@@ -38,11 +36,5 @@ public class Vendas {
 	}
 	public void setDesconto(double desconto) {
 		this.desconto = desconto;
-	}
-	public double getValorPago() {
-		return valorPago;
-	}
-	public void setValorPago(double valorPago) {
-		this.valorPago = valorPago;
 	}
 }

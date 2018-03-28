@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -23,7 +24,7 @@ public abstract class TelaDeCadastro extends JPanel {
 	JButton btnLimpar = new JButton("Limpar");
 	JButton btnCancelar = new JButton("Cancelar");
 	JButton btnProcuraId = new JButton("P.Id");
-	JTextField txtId = new JTextField("Digite Id Para Alterar");
+	JTextField txtId = new JTextField();
 
 	DefaultTableModel modelo = new DefaultTableModel();
 	JTable tabela = new JTable();
