@@ -37,7 +37,6 @@ public class App extends JFrame {
 		menuItemClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("menuClieActionPerformed...");
-				App.this.tlaCadCli.txtId.setPreferredSize(new Dimension(50, 27));
 				App.this.tlaCadHard.setVisible(false);
 				App.this.tlaCadVdas.setVisible(false);
 				App.this.tlaCadCli.setVisible(true);
@@ -52,7 +51,6 @@ public class App extends JFrame {
 		menuItemHardware.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("menuHardActionPerformed...");
-				App.this.tlaCadHard.txtId.setPreferredSize(new Dimension(170, 50));
 				App.this.tlaCadCli.setVisible(false);
 				App.this.tlaCadVdas.setVisible(false);
 				App.this.tlaCadHard.setVisible(true);
@@ -67,7 +65,6 @@ public class App extends JFrame {
 		JMenuItem menuItemVenda = new JMenuItem("Vendas");
 		menuItemVenda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				App.this.tlaCadVdas.txtId.setPreferredSize(new Dimension(170, 50));;
 				System.out.println("menuVendasActionPerformed...");
 				App.this.tlaCadCli.setVisible(false);
 				App.this.tlaCadHard.setVisible(false);

@@ -46,6 +46,7 @@ public class TelaCadClientes extends TelaDeCadastro {
 	public TelaCadClientes() throws ParseException {
 		super(4, 2, colunas); // quatro linhas e duas colunas Na Hora de add os componentes, considerar a
 		// ordem deles Conforme usamos abaixo
+		this.tabela.getColumnModel().getColumn(0).setPreferredWidth(20);
 		mascaraFone.setPlaceholderCharacter('_');
 
 		this.painelParaCampos.add(lbNome);
@@ -178,12 +179,12 @@ public class TelaCadClientes extends TelaDeCadastro {
 	@Override
 	void alterar() throws SQLException {
 		try {
-			int idInt = Integer.parseInt((String) this.txtId.getSelectedItem());
+			int idInt = (Integer) this.txtId.getSelectedItem();
 			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
 			ClienteJdbcDAO clienteJdbcDAO = new ClienteJdbcDAO(conn);
 			Cliente cli = clienteJdbcDAO.findById(idInt);
 			if (cli != null) {
-				this.cliente.setId(Integer.parseInt((String) this.txtId.getSelectedItem()));
+				this.cliente.setId((Integer) this.txtId.getSelectedItem());
 				this.cliente.setNome(txtNome.getText());
 				this.cliente.setEndereco(txtEndereco.getText());
 				this.cliente.setFone(txtFone.getText());

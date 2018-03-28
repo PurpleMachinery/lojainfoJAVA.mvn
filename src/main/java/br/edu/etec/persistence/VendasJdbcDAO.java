@@ -18,7 +18,6 @@ public class VendasJdbcDAO {
 	}
 
 	public void salvar(Vendas c) throws SQLException {
-		System.out.println(c.getData());
 		String sql;		
 		sql = "insert into tbVendas (fk_idCliente, data, valorTotal, desconto) values ('" + c.getFk_idCliente() + "','" + c.getData() + "','" + c.getValorTotal()
 				+ "','" + c.getDesconto() + "')";		
@@ -129,5 +128,22 @@ public class VendasJdbcDAO {
 			e.printStackTrace();
 		}
 		return venda;
+	}
+
+	public int checarFk_cliente(Integer id) {
+		String sql = "select pk_idCliente from tbClientes where pk_idCliente = " + id;
+		System.out.println(sql);
+		try {
+			PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
+			ResultSet rs = prepareStatement.executeQuery();
+			rs.next();
+			int pk_idCliente = Integer.parseInt(rs.getString("pk_idCliente"));
+			System.out.println("Testando haloooooooo");
+			prepareStatement.close();
+			return pk_idCliente;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 }

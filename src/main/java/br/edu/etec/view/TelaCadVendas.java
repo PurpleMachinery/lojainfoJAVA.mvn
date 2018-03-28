@@ -36,8 +36,9 @@ public class TelaCadVendas extends TelaDeCadastro {
 
 	JLabel lblData = new JLabel("Data");
 	JDateChooser txtData;
-	
-	static String[] colunas={"id","fk_cliente","valorTotal","Desconto", "Data"};
+
+	static String[] colunas = { "id", "fk_cliente", "valorTotal", "Desconto", "Data" };
+
 	public TelaCadVendas() {
 		super(4, 2, colunas);
 		this.tabela.getColumnModel().getColumn(4).setPreferredWidth(170);
@@ -107,7 +108,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 				}
 			}
 		});
-		
+
 		this.btnExcluir.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -146,7 +147,6 @@ public class TelaCadVendas extends TelaDeCadastro {
 
 	@Override
 	void salvar() {
-
 		try {
 			this.vendas.setFk_idCliente(Integer.parseInt(this.txtIdCliente.getText()));
 			this.vendas.setDesconto(Double.parseDouble(this.txtDesconto.getText()));
@@ -155,7 +155,13 @@ public class TelaCadVendas extends TelaDeCadastro {
 			this.vendas.setData(formatador.format(this.txtData.getDate()));
 			Connection connection = br.edu.etec.persistence.JdbcUtil.getConnection();
 			br.edu.etec.persistence.VendasJdbcDAO vendasJdbcDAO = new VendasJdbcDAO(connection);
-			vendasJdbcDAO.salvar(this.vendas);
+			if (vendasJdbcDAO.checarFk_cliente(Integer.parseInt(this.txtIdCliente.getText())) == 3) {
+				vendasJdbcDAO.salvar(this.vendas);
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "fk_idCliente nao existe");
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -169,12 +175,12 @@ public class TelaCadVendas extends TelaDeCadastro {
 	@Override
 	void alterar() throws SQLException {
 		try {
-			int idInt = Integer.parseInt((String) this.txtId.getSelectedItem());
+			int idInt = (Integer) this.txtId.getSelectedItem();
 			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
 			VendasJdbcDAO vendasJdbcDAO = new VendasJdbcDAO(conn);
 			Vendas cli = vendasJdbcDAO.findById(idInt);
 			if (cli != null) {
-				this.vendas.setId(Integer.parseInt((String) this.txtId.getSelectedItem()));
+				this.vendas.setId((Integer) this.txtId.getSelectedItem());
 				this.vendas.setFk_idCliente(Integer.parseInt(this.txtIdCliente.getText()));
 				this.vendas.setDesconto(Double.parseDouble(this.txtDesconto.getText()));
 				this.vendas.setValorTotal(Double.parseDouble(this.txtValorTotal.getText()));
@@ -192,7 +198,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 
 	@Override
 	void excluir() throws SQLException {
-		String id =""+ this.txtId.getSelectedItem();
+		String id = "" + this.txtId.getSelectedItem();
 		try {
 			int idInt = Integer.parseInt(id);
 			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
@@ -205,18 +211,17 @@ public class TelaCadVendas extends TelaDeCadastro {
 	}
 
 	void pId() throws SQLException {
-		String id =""+ this.txtId.getSelectedItem();
+		String id = "" + this.txtId.getSelectedItem();
 		try {
 			int idInt = Integer.parseInt(id);
 			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
 			VendasJdbcDAO vendasJdbcDAO = new VendasJdbcDAO(conn);
 			Vendas cc = vendasJdbcDAO.findById(idInt);
-			
+
 			SimpleDateFormat mascareno = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 			Date dte = mascareno.parse(cc.getData());
 			txtData.setDate(dte);
-			
-			
+
 			txtDesconto.setText("" + cc.getDesconto());
 			txtIdCliente.setText("" + cc.getFk_idCliente());
 			txtValorTotal.setText("" + cc.getValorTotal());
@@ -233,10 +238,12 @@ public class TelaCadVendas extends TelaDeCadastro {
 			VendasJdbcDAO vendasJdbcDAO = new VendasJdbcDAO(conn);
 			List<Vendas> list = vendasJdbcDAO.listar();
 			for (int i = 0; i < list.size(); i++) {
-				this.modelo.addRow(new Object[] {list.get(i).getId(),list.get(i).getFk_idCliente(),list.get(i).getValorTotal(),list.get(i).getDesconto(),list.get(i).getData()});			
-				/*String id = Integer.toString(list.get(i).getId());
-				int fk_idCliente = list.get(i).getFk_idCliente();
-				strArr[i] = id + " - " + fk_idCliente;*/
+				this.modelo.addRow(new Object[] { list.get(i).getId(), list.get(i).getFk_idCliente(),
+						list.get(i).getValorTotal(), list.get(i).getDesconto(), list.get(i).getData() });
+				/*
+				 * String id = Integer.toString(list.get(i).getId()); int fk_idCliente =
+				 * list.get(i).getFk_idCliente(); strArr[i] = id + " - " + fk_idCliente;
+				 */
 			}
 			TelaCadVendas.this.setarIds();
 		} catch (ClassNotFoundException e) {
@@ -261,7 +268,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 				 * = id + " - " + nome;
 				 */
 			}
-			//this.list.setListData(strArr);
+			// this.list.setListData(strArr);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

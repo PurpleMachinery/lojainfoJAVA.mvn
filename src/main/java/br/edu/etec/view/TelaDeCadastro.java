@@ -53,6 +53,7 @@ public abstract class TelaDeCadastro extends JPanel {
 		this.painelDeBotoes.add(btnProcuraId);
 		this.painelDeBotoes.add(txtId);
 		this.add(painelDeBotoes, BorderLayout.CENTER);
+		this.txtId.setPreferredSize(new Dimension(50, 27));
 		
 		for (int i = 0; i < camposListagem.length; i++) {
 			modelo.addColumn(camposListagem[i]);

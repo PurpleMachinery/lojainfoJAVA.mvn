@@ -173,7 +173,7 @@ public class TelaCadHardware extends TelaDeCadastro {
 			HardwareJdbcDAO hardwareJdbcDAO = new HardwareJdbcDAO(conn);
 			Hardware cli = hardwareJdbcDAO.findById(idInt);
 			if (cli != null) {
-				this.hardware.setId(Integer.parseInt((String) this.txtId.getSelectedItem()));
+				this.hardware.setId((Integer) this.txtId.getSelectedItem());
 				this.hardware.setDescricao(this.txtDescricao.getText());
 				this.hardware.setPrecoUnitario(Double.parseDouble(this.txtPrecoUnit.getText()));
 				this.hardware.setQtdAtual(Integer.parseInt(this.txtQtdAtual.getText()));
