@@ -271,13 +271,6 @@ public class TelaCadClientes extends TelaDeCadastro {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		for (int ir = 0; ir <= tabela.getColumnCount(); ir++) {
-			for (int ic = 0; ic <= tabela.getRowCount(); ic++) {
-				modelo.isCellEditable(ir, ic);
-			}
-		}
-		this.tabela.setModel(modelo);
-
 	}
 
 	void setarIds() throws SQLException {
