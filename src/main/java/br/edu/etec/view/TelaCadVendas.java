@@ -14,6 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -134,6 +136,31 @@ public class TelaCadVendas extends TelaDeCadastro {
 				}
 			}
 		});
+
+		this.tabela.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+			public void valueChanged(ListSelectionEvent e) {
+				// TODO Auto-generated method stub
+				if (tabela.getSelectedRow() >= 0) {
+					for (int i = 0; i < txtId.getItemCount(); i++) {
+						txtId.setSelectedIndex(tabela.getSelectedRow());
+						txtIdCliente.setText("" + tabela.getValueAt(tabela.getSelectedRow(), 1));
+						txtValorTotal.setText("" + tabela.getValueAt(tabela.getSelectedRow(), 2));
+						txtDesconto.setText("" + tabela.getValueAt(tabela.getSelectedRow(), 3));
+						String dateValue = "" + tabela.getValueAt(tabela.getSelectedRow(), 4); // What ever column
+						System.out.println("TESTANDODODODODO "+dateValue);
+						try {
+							java.util.Date date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(dateValue);
+							System.out.println(dateValue);
+							txtData.setDate(date);
+						} catch (Exception e21) {
+							e21.printStackTrace();
+						}
+					}
+					// tabela.getValueAt(tabela.getSelectedRow(), 0));
+				}
+			}
+		});
 	}
 
 	@Override
@@ -147,24 +174,28 @@ public class TelaCadVendas extends TelaDeCadastro {
 
 	@Override
 	void salvar() {
-		try {
-			this.vendas.setFk_idCliente(Integer.parseInt(this.txtIdCliente.getText()));
-			this.vendas.setDesconto(Double.parseDouble(this.txtDesconto.getText()));
-			this.vendas.setValorTotal(Double.parseDouble(this.txtValorTotal.getText()));
-			SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			this.vendas.setData(formatador.format(this.txtData.getDate()));
-			Connection connection = br.edu.etec.persistence.JdbcUtil.getConnection();
-			br.edu.etec.persistence.VendasJdbcDAO vendasJdbcDAO = new VendasJdbcDAO(connection);
-			if (vendasJdbcDAO.checarFk_cliente(Integer.parseInt(this.txtIdCliente.getText())) == 3) {
-				vendasJdbcDAO.salvar(this.vendas);
-			}
-			else {
-				JOptionPane.showMessageDialog(null, "fk_idCliente nao existe");
-			}
+		if (!(txtDesconto.getText().isEmpty() || txtIdCliente.getText().isEmpty()
+				|| txtValorTotal.getText().isEmpty())) {
+			try {
+				this.vendas.setFk_idCliente(Integer.parseInt(this.txtIdCliente.getText()));
+				this.vendas.setDesconto(Double.parseDouble(this.txtDesconto.getText()));
+				this.vendas.setValorTotal(Double.parseDouble(this.txtValorTotal.getText()));
+				SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				this.vendas.setData(formatador.format(this.txtData.getDate()));
+				Connection connection = br.edu.etec.persistence.JdbcUtil.getConnection();
+				br.edu.etec.persistence.VendasJdbcDAO vendasJdbcDAO = new VendasJdbcDAO(connection);
+				if (vendasJdbcDAO.checarFk_cliente(Integer.parseInt(this.txtIdCliente.getText())) == Integer
+						.parseInt(this.txtIdCliente.getText())) {
+					vendasJdbcDAO.salvar(this.vendas);
+				} else {
+					JOptionPane.showMessageDialog(null, "fk_idCliente nao existe");
+				}
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else
+			JOptionPane.showMessageDialog(null, "Todos os campos tem que estar preenchidos!");
 	}
 
 	@Override
@@ -174,26 +205,29 @@ public class TelaCadVendas extends TelaDeCadastro {
 
 	@Override
 	void alterar() throws SQLException {
-		try {
-			int idInt = (Integer) this.txtId.getSelectedItem();
-			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
-			VendasJdbcDAO vendasJdbcDAO = new VendasJdbcDAO(conn);
-			Vendas cli = vendasJdbcDAO.findById(idInt);
-			if (cli != null) {
-				this.vendas.setId((Integer) this.txtId.getSelectedItem());
-				this.vendas.setFk_idCliente(Integer.parseInt(this.txtIdCliente.getText()));
-				this.vendas.setDesconto(Double.parseDouble(this.txtDesconto.getText()));
-				this.vendas.setValorTotal(Double.parseDouble(this.txtValorTotal.getText()));
-				SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				this.vendas.setData(formatador.format(this.txtData.getDate()));
-				vendasJdbcDAO.alterar(this.vendas);
-			} else {
-				JOptionPane.showMessageDialog(this, "Nao ha vendas com esse id");
+		if (!(txtDesconto.getText().isEmpty() || txtIdCliente.getText().isEmpty()
+				|| txtValorTotal.getText().isEmpty())) {
+			try {
+				int idInt = (Integer) this.txtId.getSelectedItem();
+				Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
+				VendasJdbcDAO vendasJdbcDAO = new VendasJdbcDAO(conn);
+				Vendas cli = vendasJdbcDAO.findById(idInt);
+				if (cli != null) {
+					this.vendas.setId((Integer) this.txtId.getSelectedItem());
+					this.vendas.setFk_idCliente(Integer.parseInt(this.txtIdCliente.getText()));
+					this.vendas.setDesconto(Double.parseDouble(this.txtDesconto.getText()));
+					this.vendas.setValorTotal(Double.parseDouble(this.txtValorTotal.getText()));
+					SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					this.vendas.setData(formatador.format(this.txtData.getDate()));
+					vendasJdbcDAO.alterar(this.vendas);
+				} else {
+					JOptionPane.showMessageDialog(this, "Nao ha vendas com esse id");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		} else
+			JOptionPane.showMessageDialog(null, "Todos os campos tem que estar preenchidos!");
 	}
 
 	@Override

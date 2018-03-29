@@ -198,25 +198,29 @@ public class TelaCadClientes extends TelaDeCadastro {
 
 	@Override
 	void alterar() throws SQLException {
-		try {
-			int idInt = (Integer) this.txtId.getSelectedItem();
-			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
-			ClienteJdbcDAO clienteJdbcDAO = new ClienteJdbcDAO(conn);
-			Cliente cli = clienteJdbcDAO.findById(idInt);
-			if (cli != null) {
-				this.cliente.setId((Integer) this.txtId.getSelectedItem());
-				this.cliente.setNome(txtNome.getText());
-				this.cliente.setEndereco(txtEndereco.getText());
-				this.cliente.setFone(txtFone.getText());
-				this.cliente.setEmail(txtEmail.getText());
-				clienteJdbcDAO.alterar(this.cliente);
-			} else {
-				JOptionPane.showMessageDialog(this, "Nao ha clientes com esse id");
+		if (this.txtNome.getText().isEmpty() || this.txtEmail.getText().isEmpty()
+				|| this.txtEndereco.getText().isEmpty() || this.txtFone.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Todos os campos tem que estar preenchidos!");
+		} else {
+			try {
+				int idInt = (Integer) this.txtId.getSelectedItem();
+				Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
+				ClienteJdbcDAO clienteJdbcDAO = new ClienteJdbcDAO(conn);
+				Cliente cli = clienteJdbcDAO.findById(idInt);
+				if (cli != null) {
+					this.cliente.setId((Integer) this.txtId.getSelectedItem());
+					this.cliente.setNome(txtNome.getText());
+					this.cliente.setEndereco(txtEndereco.getText());
+					this.cliente.setFone(txtFone.getText());
+					this.cliente.setEmail(txtEmail.getText());
+					clienteJdbcDAO.alterar(this.cliente);
+				} else {
+					JOptionPane.showMessageDialog(this, "Nao ha clientes com esse id");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
-
 	}
 
 	@Override

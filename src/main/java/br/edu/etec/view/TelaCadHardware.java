@@ -13,6 +13,8 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import br.edu.etec.model.Cliente;
 import br.edu.etec.model.Hardware;
@@ -58,7 +60,7 @@ public class TelaCadHardware extends TelaDeCadastro {
 			e1.printStackTrace();
 		}
 		System.out.println("Construtor TelaCadHardware()");
-		
+
 		this.btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TelaCadHardware.this.limparFormulario();
@@ -130,6 +132,24 @@ public class TelaCadHardware extends TelaDeCadastro {
 				}
 			}
 		});
+
+		this.tabela.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+			public void valueChanged(ListSelectionEvent e) {
+				// TODO Auto-generated method stub
+				if (tabela.getSelectedRow() >= 0) {
+					for (int i = 0; i < txtId.getItemCount(); i++) {
+						txtId.setSelectedIndex(tabela.getSelectedRow());
+						txtDescricao.setText("" + tabela.getValueAt(tabela.getSelectedRow(), 1));
+						txtPrecoUnit.setText("" + tabela.getValueAt(tabela.getSelectedRow(), 2));
+						txtQtdAtual.setText("" + tabela.getValueAt(tabela.getSelectedRow(), 3));
+						txtQtdMinima.setText("" + tabela.getValueAt(tabela.getSelectedRow(), 4));
+					}
+
+					// tabela.getValueAt(tabela.getSelectedRow(), 0));
+				}
+			}
+		});
 	}
 
 	@Override
@@ -143,20 +163,23 @@ public class TelaCadHardware extends TelaDeCadastro {
 
 	@Override
 	void salvar() {
-		try {
-			this.hardware.setDescricao(this.txtDescricao.getText());
-			double PrecoUnitario = Double.parseDouble(this.txtPrecoUnit.getText());
-			this.hardware.setPrecoUnitario(PrecoUnitario);
-			int QtdAtual = Integer.parseInt(this.txtQtdAtual.getText());
-			this.hardware.setQtdAtual(QtdAtual);
-			int QtdMinima = Integer.parseInt(this.txtQtdMinima.getText());
-			this.hardware.setQtdMinima(QtdMinima);
-			Connection connection = br.edu.etec.persistence.JdbcUtil.getConnection();
-			br.edu.etec.persistence.HardwareJdbcDAO hardwareJdbcDAO = new HardwareJdbcDAO(connection);
-			hardwareJdbcDAO.salvar(this.hardware);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		if (!(txtDescricao.getText().isEmpty() || txtPrecoUnit.getText().isEmpty() || txtPrecoUnit.getText().isEmpty()
+				|| txtQtdAtual.getText().isEmpty() || txtQtdMinima.getText().isEmpty())) {
+			try {
+				this.hardware.setDescricao(this.txtDescricao.getText());
+				double PrecoUnitario = Double.parseDouble(this.txtPrecoUnit.getText());
+				this.hardware.setPrecoUnitario(PrecoUnitario);
+				int QtdAtual = Integer.parseInt(this.txtQtdAtual.getText());
+				this.hardware.setQtdAtual(QtdAtual);
+				int QtdMinima = Integer.parseInt(this.txtQtdMinima.getText());
+				this.hardware.setQtdMinima(QtdMinima);
+				Connection connection = br.edu.etec.persistence.JdbcUtil.getConnection();
+				br.edu.etec.persistence.HardwareJdbcDAO hardwareJdbcDAO = new HardwareJdbcDAO(connection);
+				hardwareJdbcDAO.salvar(this.hardware);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else JOptionPane.showMessageDialog(null, "Todos os campos tem que estar preenchidos!");
 	}
 
 	@Override
@@ -166,31 +189,33 @@ public class TelaCadHardware extends TelaDeCadastro {
 
 	@Override
 	void alterar() throws SQLException {
-		String id =""+ this.txtId.getSelectedItem();
-		try {
-			int idInt = Integer.parseInt(id);
-			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
-			HardwareJdbcDAO hardwareJdbcDAO = new HardwareJdbcDAO(conn);
-			Hardware cli = hardwareJdbcDAO.findById(idInt);
-			if (cli != null) {
-				this.hardware.setId((Integer) this.txtId.getSelectedItem());
-				this.hardware.setDescricao(this.txtDescricao.getText());
-				this.hardware.setPrecoUnitario(Double.parseDouble(this.txtPrecoUnit.getText()));
-				this.hardware.setQtdAtual(Integer.parseInt(this.txtQtdAtual.getText()));
-				this.hardware.setQtdMinima(Integer.parseInt(this.txtQtdMinima.getText()));
-				hardwareJdbcDAO.alterar(this.hardware);
-			} else {
-				JOptionPane.showMessageDialog(this, "Nao ha hardwares com esse id");
+		String id = "" + this.txtId.getSelectedItem();
+		if (!(txtDescricao.getText().isEmpty() || txtPrecoUnit.getText().isEmpty() || txtPrecoUnit.getText().isEmpty()
+				|| txtQtdAtual.getText().isEmpty() || txtQtdMinima.getText().isEmpty())) {
+			try {
+				int idInt = Integer.parseInt(id);
+				Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
+				HardwareJdbcDAO hardwareJdbcDAO = new HardwareJdbcDAO(conn);
+				Hardware cli = hardwareJdbcDAO.findById(idInt);
+				if (cli != null) {
+					this.hardware.setId((Integer) this.txtId.getSelectedItem());
+					this.hardware.setDescricao(this.txtDescricao.getText());
+					this.hardware.setPrecoUnitario(Double.parseDouble(this.txtPrecoUnit.getText()));
+					this.hardware.setQtdAtual(Integer.parseInt(this.txtQtdAtual.getText()));
+					this.hardware.setQtdMinima(Integer.parseInt(this.txtQtdMinima.getText()));
+					hardwareJdbcDAO.alterar(this.hardware);
+				} else {
+					JOptionPane.showMessageDialog(this, "Nao ha hardwares com esse id");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		}else JOptionPane.showMessageDialog(null, "Todos os campos tem que estar preenchidos!");
 	}
 
 	@Override
 	void excluir() throws SQLException {
-		String id =""+ this.txtId.getSelectedItem();
+		String id = "" + this.txtId.getSelectedItem();
 		try {
 			int idInt = Integer.parseInt(id);
 			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
@@ -203,7 +228,7 @@ public class TelaCadHardware extends TelaDeCadastro {
 	}
 
 	void pId() throws SQLException {
-		String id =""+ this.txtId.getSelectedItem();
+		String id = "" + this.txtId.getSelectedItem();
 		try {
 			int idInt = Integer.parseInt(id);
 			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
