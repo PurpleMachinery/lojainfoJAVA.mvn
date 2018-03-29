@@ -16,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.text.MaskFormatter;
 
 import br.edu.etec.model.Cliente;
@@ -139,6 +141,24 @@ public class TelaCadClientes extends TelaDeCadastro {
 				}
 			}
 		});
+
+		this.tabela.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+			public void valueChanged(ListSelectionEvent e) {
+				// TODO Auto-generated method stub
+				if (tabela.getSelectedRow() >= 0) {
+					for (int i = 0; i < txtId.getItemCount(); i++) {
+						txtId.setSelectedIndex(tabela.getSelectedRow());
+						txtNome.setText((String)tabela.getValueAt(tabela.getSelectedRow(), 1));
+						txtEndereco.setText((String)tabela.getValueAt(tabela.getSelectedRow(), 2));
+						txtFone.setText((String)tabela.getValueAt(tabela.getSelectedRow(), 3));
+						txtEmail.setText((String)tabela.getValueAt(tabela.getSelectedRow(), 4));
+					}
+
+					// tabela.getValueAt(tabela.getSelectedRow(), 0));
+				}
+			}
+		});
 	}
 
 	@Override
@@ -201,7 +221,7 @@ public class TelaCadClientes extends TelaDeCadastro {
 
 	@Override
 	void excluir() throws SQLException {
-		String id =""+ this.txtId.getSelectedItem();
+		String id = "" + this.txtId.getSelectedItem();
 		try {
 			int idInt = Integer.parseInt(id);
 			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
@@ -214,7 +234,7 @@ public class TelaCadClientes extends TelaDeCadastro {
 	}
 
 	void pId() throws SQLException {
-		String id =""+ this.txtId.getSelectedItem();
+		String id = "" + this.txtId.getSelectedItem();
 		try {
 			int idInt = Integer.parseInt(id);
 			Connection conn = br.edu.etec.persistence.JdbcUtil.getConnection();
