@@ -149,10 +149,10 @@ public class TelaCadClientes extends TelaDeCadastro {
 				if (tabela.getSelectedRow() >= 0) {
 					for (int i = 0; i < txtId.getItemCount(); i++) {
 						txtId.setSelectedIndex(tabela.getSelectedRow());
-						txtNome.setText((String)tabela.getValueAt(tabela.getSelectedRow(), 1));
-						txtEndereco.setText((String)tabela.getValueAt(tabela.getSelectedRow(), 2));
-						txtFone.setText((String)tabela.getValueAt(tabela.getSelectedRow(), 3));
-						txtEmail.setText((String)tabela.getValueAt(tabela.getSelectedRow(), 4));
+						txtNome.setText((String) tabela.getValueAt(tabela.getSelectedRow(), 1));
+						txtEndereco.setText((String) tabela.getValueAt(tabela.getSelectedRow(), 2));
+						txtFone.setText((String) tabela.getValueAt(tabela.getSelectedRow(), 3));
+						txtEmail.setText((String) tabela.getValueAt(tabela.getSelectedRow(), 4));
 					}
 
 					// tabela.getValueAt(tabela.getSelectedRow(), 0));
@@ -271,6 +271,12 @@ public class TelaCadClientes extends TelaDeCadastro {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		for (int ir = 0; ir <= tabela.getColumnCount(); ir++) {
+			for (int ic = 0; ic <= tabela.getRowCount(); ic++) {
+				modelo.isCellEditable(ir, ic);
+			}
+		}
+		this.tabela.setModel(modelo);
 
 	}
 

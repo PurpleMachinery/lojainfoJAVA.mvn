@@ -17,8 +17,8 @@ public abstract class TelaDeCadastro extends JPanel {
 	JPanel painelDeBotoes = new JPanel();
 	JPanel painelParaCampos = new JPanel();
 	JPanel painelListagem = new JPanel();
-	JButton btnSalvar = new JButton("Salvar");
-	JButton btnAlterar = new JButton("Alterar");
+	JButton btnSalvar = new JButton("Novo");
+	JButton btnAlterar = new JButton("Salvar");
 	JButton btnListar = new JButton("Listar");
 	JButton btnExcluir = new JButton("Excluir");
 	JButton btnLimpar = new JButton("Limpar");
@@ -26,7 +26,11 @@ public abstract class TelaDeCadastro extends JPanel {
 	JButton btnProcuraId = new JButton("P.Id");
 	JComboBox txtId = new JComboBox();
 
-	DefaultTableModel modelo = new DefaultTableModel();
+	DefaultTableModel modelo = new DefaultTableModel() {
+		public boolean isCellEditable(int row, int column) {
+			return false;
+		}
+	};
 	JTable tabela = new JTable();
 
 	public TelaDeCadastro(int nLinhas, int nColunas, String[] camposListagem) {
@@ -41,7 +45,6 @@ public abstract class TelaDeCadastro extends JPanel {
 		this.add(painelParaCampos, BorderLayout.NORTH);
 
 		this.painelDeBotoes = new JPanel();
-		this.btnSalvar = new JButton("Salvar");
 		this.btnLimpar = new JButton("Limpar");
 		this.btnCancelar = new JButton("Cancelar");
 		this.painelDeBotoes.add(btnSalvar);
@@ -58,6 +61,7 @@ public abstract class TelaDeCadastro extends JPanel {
 		for (int i = 0; i < camposListagem.length; i++) {
 			modelo.addColumn(camposListagem[i]);
 		}
+		modelo.isCellEditable(1, 1);
 		tabela.setModel(modelo);
 		tabela.setVisible(true);
 		painelListagem.add(new JScrollPane(tabela), BorderLayout.CENTER);
