@@ -54,7 +54,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 		this.painelParaCampos.add(txtDesconto);
 
 		this.painelParaCampos.add(lblData);
-		txtData = new JDateChooser("dd/MM/yyyy HH:mm:ss", "##/##/#### ##:##:##", '_');
+		txtData = new JDateChooser("yyyy-MM-dd HH:mm:ss", "##/##/#### ##:##:##", '_');
 		txtData.setDate(new Date());
 		this.painelParaCampos.add(txtData);
 		try {
@@ -150,7 +150,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 						String dateValue = "" + tabela.getValueAt(tabela.getSelectedRow(), 4); // What ever column
 						System.out.println("TESTANDODODODODO "+dateValue);
 						try {
-							java.util.Date date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(dateValue);
+							java.util.Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateValue);
 							System.out.println(dateValue);
 							txtData.setDate(date);
 						} catch (Exception e21) {
@@ -252,7 +252,7 @@ public class TelaCadVendas extends TelaDeCadastro {
 			VendasJdbcDAO vendasJdbcDAO = new VendasJdbcDAO(conn);
 			Vendas cc = vendasJdbcDAO.findById(idInt);
 
-			SimpleDateFormat mascareno = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+			SimpleDateFormat mascareno = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date dte = mascareno.parse(cc.getData());
 			txtData.setDate(dte);
 
